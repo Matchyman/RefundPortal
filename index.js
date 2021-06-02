@@ -38,9 +38,9 @@ app.get('/login', (req, res) => { // @TODO: Dependant on login/authentication re
 
 app.post('/postLogin', (req, res) => { // @TODO: Dependant on login/authentication requirements.
     console.log(req.body)
-    pool.getConnection(function(err, connection){
+    pool.getConnection(function(err, connection) {
         if (err) throw err;
-        connection.query(`SELECT * FROM refundAuthentication WHERE userID = '${req.body.username}'`, function (err, result, fields) {
+        connection.query(`SELECT * FROM refundAuthentication WHERE userID = '${req.body.username}'`, function(err, result, fields) {
             if (err) throw err;
             // console.log(result[0].userID); // -- Ensuring a valid entry is returned.
             if (result != '') {
