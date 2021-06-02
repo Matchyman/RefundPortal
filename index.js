@@ -18,7 +18,7 @@ var pool = mysql.createPool({ // To change the details, change the values in sec
 // ========================================
 
 app.set('view engine', 'ejs');
-app.use(express.static(__dirname + '/public')); // Assets go in the public folder.
+app.use(express.static(__dirname + '/public/')); // Assets go in the public folder.
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -30,6 +30,11 @@ app.get('/application', (req, res) => { // The applicant applies here for the re
 app.get('/', (req, res) => {
     res.redirect(`application`);
     console.log(`Landing here, redirecting to -> application`);
+})
+
+app.post('/application', (req, res) => { // @TODO Add in functionality for email to be sent
+    res.redirect('application');
+    console.log("Application Recieved Send email")
 })
 
 app.get('/login', (req, res) => { // @TODO: Dependant on login/authentication requirements.
