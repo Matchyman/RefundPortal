@@ -61,6 +61,10 @@ app.post('/postLogin', (req, res) => { // @TODO: Dependant on login/authenticati
     })
 })
 
+app.post('/search', (req, res) => { //
+    // @TODO: implement search function here once data is acquired.
+})
+
 app.listen(port, () => {
     console.log(`Application started @ http://localhost:${port}`)
 })
