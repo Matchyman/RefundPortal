@@ -136,7 +136,7 @@
                     <div class="form-group row">
                         <label for="stu-pay" class="col-md 5 col-form-label">Payment Type</label>
                         <div class="col-md 5">
-                            <select name="stu-pay" id="stu-pay" onchange="refTypeDisplay(this.value)">
+                            <select name="stu-pay" id="stu-pay" onchange="refTypeDisplay(this.value)" required>
                             <option value=""></option>
                             <option value="credit">Credit Card</option>
                             <option value="transfer">Bank Transfer</option>
@@ -231,6 +231,9 @@
                             <textarea name="ref-ex-reasons" id="ref-ex-reasons" cols="30" rows="10"></textarea>
                         </div>
                     </div>
+                    <label for="checkbox-terms">>By clicking here you accept all the terms and conditions</label>
+
+                    <input type="checkbox" name="" id="checkbox-terms">
                     <button type="submit">Submit</button>
                 </form>
                 <footer class="bot-main"></footer>
