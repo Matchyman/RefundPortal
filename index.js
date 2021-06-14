@@ -1,6 +1,7 @@
 const express = require('express');
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
+const { body, validationResult } = require('express-validator');
 const config = require("./security/db.json");
 const app = express()
 const port = 3000;
@@ -34,6 +35,7 @@ app.get('/', (req, res) => {
 
 app.post('/application', (req, res) => { // @TODO Add in functionality for email to be sent
     //console.log(req.body);
+    //@TODO Form Validation using ExpressValidatior
 
     res.redirect('application');
     console.log("Application Recieved Send email")
