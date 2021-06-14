@@ -17,13 +17,13 @@ var pool = mysql.createPool({ // To change the details, change the values in sec
 
 // ========================================
 
-app.set('view engine', 'ejs');
+app.engine('html', require('ejs').renderFile);
 app.use(express.static(__dirname + '/public/')); // Assets go in the public folder.
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/application', (req, res) => { // The applicant applies here for the refund.
-    res.render('application');
+    res.render('application.html');
     console.log(`Viewing: Application`);
 })
 
@@ -38,7 +38,7 @@ app.post('/application', (req, res) => { // @TODO Add in functionality for email
 })
 
 app.get('/login', (req, res) => { // @TODO: Dependant on login/authentication requirements.
-    res.render('login');
+    res.render('login.html');
 })
 
 app.post('/postLogin', (req, res) => { // @TODO: Dependant on login/authentication requirements.
@@ -51,11 +51,11 @@ app.post('/postLogin', (req, res) => { // @TODO: Dependant on login/authenticati
             if (result != '') {
                 if (req.body.password == result[0].userPassword) {
                     connection.release();
-                    res.render('management');
+                    res.render('management.html');
                 }
             } else {
                 connection.release();
-                res.redirect('login');
+                res.redirect('login.html');
             }
         })
     })
