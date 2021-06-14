@@ -23,14 +23,33 @@
             <div class="terms-conditions" id="terms-conditions">
                 Terms and Conditions Go Here
             </div>
-
+            <div class="form-group row">
+                <div class="middle-text">
+                    <p>Please note that the most effective method of re-payment is by electronic bank transfer, sometimes referred to as a wire transfer.</p>
+                    <p> Please provide the following information so that the funds can be transferred correctly and within a reasonable time scale</p>
+                    <p>Due to money laundering laws the money cannot be returned to any bank other than the one the money was originally transferred from. </p>
+                </div>
+            </div>
+            <br>
+            <div class="form-group row">
+                <label for="stu-pay" class="col-md 5 col-form-label">Payment Type</label>
+                <div class="col-md 5">
+                    <select name="stu-pay" id="stu-pay" onchange="refTypeDisplay(this.value)" required>
+                            <option value=""></option>
+                            <option value="portal">Web Portal</option>
+                            <option value="bank">Bank Transfer</option>
+                            <option value="international">International Transfer</option>
+                        </select>
+                </div>
+            </div>
             <div class="content">
                 <form action="/application" class="refund-form" method="POST">
                     <!-- Person's Details-->
-                    <div class="form-group row">
-                        <label for="ref-title" class="col-md 5 col-form-label">Title</label>
-                        <div class="col-md 5">
-                            <select name="ref-title" id="ref-title">
+                    <div class="portal-transfer" name="portal-transfer">
+                        <div class="form-group row">
+                            <label for="ref-title" class="col-md 5 col-form-label">Title</label>
+                            <div class="col-md 5">
+                                <select name="ref-title" id="ref-title">
                                 <option value=""></option>
                                 <option value="Mr">Mr</option>
                                 <option value="Mrs">Mrs</option>
@@ -42,27 +61,29 @@
                                 <option value="Rev">Rev</option>
                                 <option value="Sir">Sir</option>
                             </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="ref-first-name" class="col-md 5 col-form-label">First Name</label>
-                        <div class="col-md 5">
-                            <input type="text" name="ref-first-name" id="ref-first-name">
-                        </div>
+                        <div class="form-group row">
+                            <label for="ref-first-name" class="col-md 5 col-form-label">First Name</label>
+                            <div class="col-md 5">
+                                <input type="text" name="ref-first-name" id="ref-first-name">
+                            </div>
 
-                    </div>
-                    <div class="form-group row">
-                        <label for="ref-last-name" class="col-md 5 col-form-label">Last Name</label>
-                        <div class="col-md 5">
-                            <input type="text" name="ref-last-name" id="ref-last-name">
+                        </div>
+                        <div class="form-group row">
+                            <label for="ref-last-name" class="col-md 5 col-form-label">Last Name</label>
+                            <div class="col-md 5">
+                                <input type="text" name="ref-last-name" id="ref-last-name">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="stu-num" class="col-md 5 col-form-label">Student Number</label>
+                            <div class="col-md 5">
+                                <input type="text" name="student-number" id="stu-num">
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label for="stu-num" class="col-md 5 col-form-label">Student Number</label>
-                        <div class="col-md 5">
-                            <input type="text" name="student-number" id="stu-num">
-                        </div>
-                    </div>
+                    <!--
                     <div class="form-group row">
                         <label for="stu-email" class="col-md 5 col-form-label">Email</label>
                         <div class="col-md 5">
@@ -75,14 +96,17 @@
                             <input type="text" name="student-tel-num" id="stu-tel-num">
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label for="ref-person-paid" class="col-md 5 col-form-label">Is the person who paid the fees the same person applying for a Refund</label>
-                        <div class="col-md 5">
+                    -->
+                    <div class="portal-extra" id="portal-extra">
+                        <div class="form-group row">
+                            <label for="ref-person-paid" class="col-md 5 col-form-label">Is the person who paid the fees the same person applying for a Refund</label>
+                            <div class="col-md 5">
 
-                            <input type="radio" name="ref-person-paid" id="yes" value="True" onchange="refPayerDisplay(this.value)" required>
-                            <label for="yes">Yes</label><br>
-                            <input type="radio" name="ref-person-paid" id="no" value="False" onchange="refPayerDisplay(this.value)" required>
-                            <label for="no">No</label><br>
+                                <input type="radio" name="ref-person-paid" id="ref-person-paid" value="True" onchange="refPayerDisplay(this.value)">
+                                <label for="yes">Yes</label><br>
+                                <input type="radio" name="ref-person-paid" id="ref-person-paid" value="False" onchange="refPayerDisplay(this.value)">
+                                <label for="no">No</label><br>
+                            </div>
                         </div>
                     </div>
                     <div class="ref-payer" id="dif-ref-payer">
@@ -125,25 +149,8 @@
                         </div>
                     </div>
                     <br>
-                    <div class="form-group row">
-                        <div class="middle-text">
-                            <p>Please note that the most effective method of re-payment is by electronic bank transfer, sometimes referred to as a wire transfer.</p>
-                            <p> Please provide the following information so that the funds can be transferred correctly and within a reasonable time scale</p>
-                            <p>Due to money laundering laws the money cannot be returned to any bank other than the one the money was originally transferred from. </p>
-                        </div>
-                    </div>
-                    <br>
-                    <div class="form-group row">
-                        <label for="stu-pay" class="col-md 5 col-form-label">Payment Type</label>
-                        <div class="col-md 5">
-                            <select name="stu-pay" id="stu-pay" onchange="refTypeDisplay(this.value)" required>
-                            <option value=""></option>
-                            <option value="portal">Web Portal</option>
-                            <option value="bank">Bank Transfer</option>
-                            <option value="international">International Transfer</option>
-                        </select>
-                        </div>
-                    </div>
+
+
 
 
 
@@ -206,6 +213,7 @@
                             </div>
                         </div>
                     </div>
+
                     <h2>Reason for Refund</h2>
                     <div class="form-group row">
                         <label for="ref-reason" class="col-md 5 col-form-label">Refund Reason</label>
@@ -232,10 +240,11 @@
                             <textarea name="ref-ex-reasons" id="ref-ex-reasons" cols="30" rows="10"></textarea>
                         </div>
                     </div>
-                    <label for="checkbox-terms">>By clicking here you accept all the terms and conditions</label>
+                    <label for="checkbox-terms">By clicking here you accept all the terms and conditions</label>
 
                     <input type="checkbox" name="" id="checkbox-terms">
-                    <button type="submit">Submit</button>
+                    <input type="submit" value="Submit">
+
                 </form>
                 <footer class="bot-main"></footer>
             </div>
