@@ -33,13 +33,28 @@ app.get('/', (req, res) => {
     console.log(`Landing here, redirecting to -> application`);
 })
 
-app.post('/application', (req, res) => { // @TODO Add in functionality for email to be sent
-    //console.log(req.body);
-    //@TODO Form Validation using ExpressValidatior
 
-    res.redirect('application');
-    console.log("Application Recieved Send email")
-})
+// @TODO Add in functionality for email to be sent
+app.post('/application',
+    //@TODO Form Validation using ExpressValidatior
+    body('ref-first-name', 'Empty first name').trim().isLength({ min: 1 }).escape(),
+    body('ref-last-name', 'Empty first name').trim().isLength({ min: 1 }).escape(),
+
+    (req, res) => {
+        console.log(req.body);
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            console.log(errors.array());
+            res.redirect('application');
+
+        } else {
+            console.log("Free of errors")
+            res.redirect('application');
+            console.log("Application Recieved Send email");
+        }
+
+
+    })
 
 app.get('/login', (req, res) => { // @TODO: Dependant on login/authentication requirements.
     res.render('login.html');

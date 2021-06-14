@@ -46,7 +46,6 @@ function refTypeDisplay(type) {
             document.getElementById("ref-acc-num-ht").required = false;
             document.getElementById("ref-sort-code-ht").required = false;
 
-
             document.getElementById("portal-extra").style.display = "block";
             document.getElementById("portal-extra2").style.display = "block";
             break;
