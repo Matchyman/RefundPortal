@@ -7,6 +7,7 @@ function refTypeDisplay(type) {
             console.log("Portal Requirements")
 
             document.getElementById("portal-extra").style.display = "none";
+            document.getElementById("portal-extra2").style.display = "none";
             document.getElementById("block-international-transfer").style.display = "none";
             document.getElementById("block-home-transfer").style.display = "none";
             break;
@@ -27,6 +28,7 @@ function refTypeDisplay(type) {
 
             document.getElementById("ref-person-paid").required = true;
             document.getElementById("portal-extra").style.display = "block";
+            document.getElementById("portal-extra2").style.display = "block";
             break;
         case "international":
             //console.log("Show bank transfer for elements")
@@ -46,6 +48,7 @@ function refTypeDisplay(type) {
 
 
             document.getElementById("portal-extra").style.display = "block";
+            document.getElementById("portal-extra2").style.display = "block";
             break;
         case "":
             //console.log("reset");
@@ -63,6 +66,7 @@ function refTypeDisplay(type) {
 
 
             document.getElementById("portal-extra").style.display = "block";
+            document.getElementById("portal-extra2").style.display = "block";
 
             break;
         default:
