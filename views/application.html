@@ -29,30 +29,34 @@
                 </div>
             </div>
             <div class="container">
-                <div class="terms-conditions" id="terms-conditions">
-                    Terms and Conditions Go Here
+                <div class="row h-100">
+                    <div class="terms-conditions" id="terms-conditions">
+                        Terms and Conditions Go Here
+                    </div>
                 </div>
-                <div class="form-group row">
-                    <div class="middle-text">
+                <br>
+                <div class="row h-100">
+                    <div class="pay-disclaimer" id="pay-disclaimer">
                         <p>Please note that the most effective method of re-payment is by electronic bank transfer, sometimes referred to as a wire transfer.</p>
                         <p> Please provide the following information so that the funds can be transferred correctly and within a reasonable time scale</p>
                         <p>Due to money laundering laws the money cannot be returned to any bank other than the one the money was originally transferred from. </p>
                     </div>
                 </div>
-                <br>
-                <div class="form-group row">
-                    <label for="stu-pay" class="col-md 5 col-form-label">Payment Type</label>
-                    <div class="col-md 5">
-                        <select name="stu-pay" id="stu-pay" onchange="refTypeDisplay(this.value)" required>
-                            <option value=""></option>
-                            <option value="portal">Web Portal</option>
-                            <option value="bank">Bank Transfer</option>
-                            <option value="international">International Transfer</option>
-                        </select>
-                    </div>
-                </div>
+
                 <div class="content">
-                    <form action="/application" class="refund-form" method="POST">
+                    <form action="/application" name="refund-form" class="refund-form" method="POST">
+
+                        <div class="form-group row">
+                            <label for="stu-pay" class="col-md 5 col-form-label">Payment Type</label>
+                            <div class="col-md 5">
+                                <select name="stu-pay" id="stu-pay" onchange="refTypeDisplay(this.value)" required>
+                                    <option value=""></option>
+                                    <option value="portal">Web Portal</option>
+                                    <option value="bank">Bank Transfer</option>
+                                    <option value="international">International Transfer</option>
+                                </select>
+                            </div>
+                        </div>
                         <!-- Person's Details-->
                         <div class="portal-transfer" name="portal-transfer">
                             <div class="form-group row">
@@ -119,7 +123,6 @@
                             </div>
                         </div>
                         <div class="ref-payer" id="dif-ref-payer">
-                            <h6> Please enter the payers details here</h6>
                             <div class="form-group row">
                                 <label for="ref-title" class="col-md 5 col-form-label">Title</label>
                                 <div class="col-md 5">
@@ -223,7 +226,8 @@
                             </div>
                         </div>
 
-                        <h2>Reason for Refund</h2>
+                        <h2 style="text-align: center;">Reason for Refund</h2>
+                        <br>
                         <div class="form-group row">
                             <label for="ref-reason" class="col-md 5 col-form-label">Refund Reason</label>
                             <div class="col-md 5">
@@ -240,9 +244,10 @@
                         <div class="form-group row">
                             <label for="formFile" class="col-md 5 form-label">Please include a photocopy/scan of the original visa refusal notice</label>
                             <div class="col-md 5">
-                                <input class="form-control" type="file" id="formFile">
+                                <input class="form-control" type="file" id="formFile" name="ref-notice-file" accept="image/png, image/jpeg">
                             </div>
                         </div>
+
                         <div class="form-group row">
                             <label for="ref-ex-reasons" class="col-md 5 form-label">Please state reasons why you feel the visa refusal was not at fault</label>
                             <div class="col-md 5">
@@ -251,11 +256,12 @@
                         </div>
                         <div class="form-group row">
                             <label for="checkbox-terms" class="col-md 5 form-label">By clicking here you accept all the terms and conditions</label>
-
-                            <input type="checkbox" name="" id="checkbox-terms" class="col-md 5">
-                            <div class="row">
-                                <input type="submit" value="Submit">
+                            <div class="col-md 5">
+                                <input type="checkbox" name="t/c-accepted" id="checkbox-terms" required>
                             </div>
+                        </div>
+                        <div class="row">
+                            <input type="submit" value="Submit">
                         </div>
 
                     </form>

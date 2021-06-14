@@ -33,6 +33,7 @@ app.get('/', (req, res) => {
 })
 
 app.post('/application', (req, res) => { // @TODO Add in functionality for email to be sent
+    console.log(req.body);
     res.redirect('application');
     console.log("Application Recieved Send email")
 })
