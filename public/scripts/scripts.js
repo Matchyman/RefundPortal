@@ -3,41 +3,41 @@ function refTypeDisplay(type) {
 
     switch (type) {
 
-        case "credit":
+        case "bank":
             //console.log("Display credit form elements")
             //Display and make fields required
-            document.getElementById("block-card-transfer").style.display = "block";
-            document.getElementById("ref-acc-name-ct").required = true;
-            document.getElementById("ref-acc-num-ct").required = true;
-            document.getElementById("ref-sort-code-ct").required = true;
+            document.getElementById("block-home-transfer").style.display = "block";
+            document.getElementById("ref-acc-name-ht").required = true;
+            document.getElementById("ref-acc-num-ht").required = true;
+            document.getElementById("ref-sort-code-ht").required = true;
             //Remove and make fields non-required
-            document.getElementById("block-bank-transfer").style.display = "none";;
-            document.getElementById("ref-acc-name-bt").required = false;
-            document.getElementById("ref-acc-num-bt").required = false;
-            document.getElementById("ref-swift-code-bt").required = false;
-            document.getElementById("ref-bank-name-bt").required = false;
-            document.getElementById("ref-bank-address-bt").required = false;
+            document.getElementById("block-international-transfer").style.display = "none";;
+            document.getElementById("ref-acc-name-it").required = false;
+            document.getElementById("ref-acc-num-it").required = false;
+            document.getElementById("ref-swift-code-it").required = false;
+            document.getElementById("ref-bank-name-it").required = false;
+            document.getElementById("ref-bank-address-it").required = false;
             break;
-        case "transfer":
+        case "international":
             //console.log("Show bank transfer for elements")
             //Display and make fields required
-            document.getElementById("block-bank-transfer").style.display = "block";
-            document.getElementById("ref-acc-name-bt").required = true;
-            document.getElementById("ref-acc-num-bt").required = true;
-            document.getElementById("ref-swift-code-bt").required = true;
-            document.getElementById("ref-bank-name-bt").required = true;
-            document.getElementById("ref-bank-address-bt").required = true;
+            document.getElementById("block-international-transfer").style.display = "block";
+            document.getElementById("ref-acc-name-it").required = true;
+            document.getElementById("ref-acc-num-it").required = true;
+            document.getElementById("ref-swift-code-it").required = true;
+            document.getElementById("ref-bank-name-it").required = true;
+            document.getElementById("ref-bank-address-it").required = true;
 
             //Remove and make fields non-required
-            document.getElementById("block-card-transfer").style.display = "none";
-            document.getElementById("ref-acc-name-ct").required = false;
-            document.getElementById("ref-acc-num-ct").required = false;
-            document.getElementById("ref-sort-code-ct").required = false;
+            document.getElementById("block-home-transfer").style.display = "none";
+            document.getElementById("ref-acc-name-ht").required = false;
+            document.getElementById("ref-acc-num-ht").required = false;
+            document.getElementById("ref-sort-code-ht").required = false;
             break;
         case "":
             //console.log("reset");
-            document.getElementById("block-bank-transfer").style.display = "none";
-            document.getElementById("block-card-transfer").style.display = "none";
+            document.getElementById("block-international-transfer").style.display = "none";
+            document.getElementById("block-home-transfer").style.display = "none";
 
             break;
         default:

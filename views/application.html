@@ -138,8 +138,9 @@
                         <div class="col-md 5">
                             <select name="stu-pay" id="stu-pay" onchange="refTypeDisplay(this.value)" required>
                             <option value=""></option>
-                            <option value="credit">Credit Card</option>
-                            <option value="transfer">Bank Transfer</option>
+                            <option value="portal">Web Portal</option>
+                            <option value="bank">Bank Transfer</option>
+                            <option value="international">International Transfer</option>
                         </select>
                         </div>
                     </div>
@@ -148,60 +149,60 @@
 
 
 
-                    <!-- If Option is credit display credit card stuff, if bank transfer display transfer stuff -->
+                    <!-- If Option is credit display international stuff, if international transfer display transfer stuff -->
 
-                    <div class="bank-transfer" id="block-bank-transfer">
-                        <h2> Bank Transfer</h2>
+                    <div class="international-transfer" id="block-international-transfer">
+                        <h2> International Transfer</h2>
                         <div class="form-group row ">
                             <label for="ref-acc-name" class="col-md 5 col-form-label">Name On Account</label>
                             <div class="col-md 5">
-                                <input type="text" name="ref-acc-name-bt" id="ref-acc-name-bt">
+                                <input type="text" name="ref-acc-name-it" id="ref-acc-name-it">
                             </div>
                         </div>
                         <div class="form-group row ">
                             <label for="ref-acc-num" class="col-md 5 col-form-label">Account Number/ IBAN</label>
                             <div class="col-md 5">
-                                <input type="text" name="ref-acc-num-bt" id="ref-acc-num-bt">
+                                <input type="text" name="ref-acc-num-it" id="ref-acc-num-it">
                             </div>
                         </div>
                         <div class="form-group row ">
                             <label for="ref-swift-code" class="col-md 5 col-form-label">SWIFT Code</label>
                             <div class="col-md 5">
-                                <input type="text" name="ref-swift-code-bt" id="ref-swift-code-bt">
+                                <input type="text" name="ref-swift-code-it" id="ref-swift-code-it">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="ref-bank name" class="col-md 5 col-form-label">Bank Name</label>
                             <div class="col-md 5">
-                                <input type="text" name="ref-bank-name-bt" id="ref-bank-name-bt">
+                                <input type="text" name="ref-bank-name-it" id="ref-bank-name-it">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="ref-bank-address" class="col-md 5 col-form-label">Bank Address</label>
                             <div class="col-md 5">
-                                <textarea name="ref-bank-address-bt" id="ref-bank-address-bt" cols="30" rows="10"></textarea>
+                                <textarea name="ref-bank-address-it" id="ref-bank-address-it" cols="30" rows="10"></textarea>
                             </div>
                         </div>
                     </div>
 
-                    <div class="card-transfer" id="block-card-transfer">
-                        <h2> Card Transfer</h2>
+                    <div class="home-transfer" id="block-home-transfer">
+                        <h2> Home Transfer</h2>
                         <div class="form-group row ">
                             <label for="ref-acc-name" class="col-md 5 col-form-label">Name On Account</label>
                             <div class="col-md 5">
-                                <input type="text" name="ref-acc-name-ct" id="ref-acc-name-ct">
+                                <input type="text" name="ref-acc-name-ht" id="ref-acc-name-ht">
                             </div>
                         </div>
                         <div class="form-group row ">
                             <label for="ref-acc-num" class="col-md 5 col-form-label">Account Number/ IBAN</label>
                             <div class="col-md 5">
-                                <input type="text" name="ref-acc-num-ct" id="ref-acc-num-ct">
+                                <input type="text" name="ref-acc-num-ht" id="ref-acc-num-ht">
                             </div>
                         </div>
                         <div class="form-group row ">
                             <label for="ref-sort-code" class="col-md 5 col-form-label">Sort Code</label>
                             <div class="col-md 5">
-                                <input type="text" name="ref-sort-code" id="ref-sort-code-ct">
+                                <input type="text" name="ref-sort-code-ht" id="ref-sort-code-ht">
                             </div>
                         </div>
                     </div>

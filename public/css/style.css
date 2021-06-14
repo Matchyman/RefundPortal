@@ -20,11 +20,11 @@ body {
     font-size: large;
 }
 
-.card-transfer {
+.home-transfer {
     display: none;
 }
 
-.bank-transfer {
+.international-transfer {
     display: none;
 }
 
