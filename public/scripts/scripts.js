@@ -4,7 +4,7 @@ function refTypeDisplay(type) {
     switch (type) {
         case "portal":
             //They only require name and student number(i think)
-            console.log("Portal Requirements")
+            //console.log("Portal Requirements")
 
             document.getElementById("portal-extra").style.display = "none";
             document.getElementById("portal-extra2").style.display = "none";
