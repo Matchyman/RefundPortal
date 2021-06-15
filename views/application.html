@@ -44,12 +44,12 @@
                 </div>
 
                 <div class="content">
-                    <form action="/application" name="refund-form" class="refund-form" method="POST">
+                    <form action="/application" name="refund-form" method="POST" enctype=multipart/form-data>
 
                         <div class="form-group row">
                             <label for="stu-pay" class="col-md 5 col-form-label">Payment Type</label>
                             <div class="col-md 5">
-                                <select name="stu-pay" id="stu-pay" onchange="refTypeDisplay(this.value)" required>
+                                <select name="stu-pay" id="stu-pay" onchange="refTypeDisplay(this.value)"> <!--required-->
                                     <option value=""></option>
                                     <option value="portal">Web Portal</option>
                                     <option value="bank">Bank Transfer</option>
@@ -62,7 +62,7 @@
                             <div class="form-group row">
                                 <label for="ref-title" class="col-md 5 col-form-label">Title</label>
                                 <div class="col-md 5">
-                                    <select name="ref-title" id="ref-title" required>
+                                    <select name="ref-title" id="ref-title"> <!--required-->
                                 <option value=""></option>
                                 <option value="Mr">Mr</option>
                                 <option value="Mrs">Mrs</option>
@@ -80,6 +80,7 @@
                                 <label for="ref-first-name" class="col-md 5 col-form-label">First Name</label>
                                 <div class="col-md 5">
                                     <input type="text" name="ref-first-name" id="ref-first-name">
+                                    <!--required-->
                                 </div>
 
                             </div>
@@ -87,12 +88,14 @@
                                 <label for="ref-last-name" class="col-md 5 col-form-label">Last Name</label>
                                 <div class="col-md 5">
                                     <input type="text" name="ref-last-name" id="ref-last-name">
+                                    <!--required-->
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="stu-num" class="col-md 5 col-form-label">Student Number</label>
                                 <div class="col-md 5">
                                     <input type="text" name="student-number" id="stu-num">
+                                    <!--required-->
                                 </div>
                             </div>
                         </div>
@@ -100,13 +103,13 @@
                     <div class="form-group row">
                         <label for="stu-email" class="col-md 5 col-form-label">Email</label>
                         <div class="col-md 5">
-                            <input type="email" name="student-email" id="stu-email">
+                            <input type="email" name="student-email" id="stu-email"> required
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="stu-tel-num" class="col-md 5 col-form-label"> Tel Number</label>
                         <div class="col-md 5">
-                            <input type="text" name="student-tel-num" id="stu-tel-num">
+                            <input type="text" name="student-tel-num" id="stu-tel-num"> required
                         </div>
                     </div>
                     -->
@@ -115,18 +118,21 @@
                                 <label for="ref-person-paid" class="col-md 5 col-form-label">Is the person who paid the fees the same person applying for a Refund</label>
                                 <div class="col-md 5">
 
-                                    <input type="radio" name="ref-person-paid" id="ref-person-paid" value="True" onchange="refPayerDisplay(this.value)">
+                                    <input type="radio" name="ref-person-paid" id="ref-person-paid-true" value="True" onchange="refPayerDisplay(this.value)">
+                                    <!--required-->
                                     <label for="yes">Yes</label><br>
-                                    <input type="radio" name="ref-person-paid" id="ref-person-paid" value="False" onchange="refPayerDisplay(this.value)">
+                                    <input type="radio" name="ref-person-paid" id="ref-person-paid-false" value="False" onchange="refPayerDisplay(this.value)">
+                                    <!--required-->
                                     <label for="no">No</label><br>
                                 </div>
                             </div>
                         </div>
+                        <!--Multi Part shown form ref-person-paid = no, required tags added on render-->
                         <div class="ref-payer" id="dif-ref-payer">
                             <div class="form-group row">
                                 <label for="ref-title" class="col-md 5 col-form-label">Title</label>
                                 <div class="col-md 5">
-                                    <select name="ref-payer-title" id="ref-payer-title">
+                                    <select name="ref-payer-title" id="ref-payer-title"> 
                                     <option value=""></option>
                                     <option value="Mr">Mr</option>
                                     <option value="Mrs">Mrs</option>
@@ -161,14 +167,7 @@
                             </div>
                         </div>
                         <br>
-
-
-
-
-
-
-
-                        <!-- If Option is credit display international stuff, if international transfer display transfer stuff -->
+                        <!--Multipart form rendered from payment option, required tags added on render/ international transfer-->
 
                         <div class="international-transfer" id="block-international-transfer">
                             <h2> International Transfer</h2>
@@ -204,6 +203,7 @@
                             </div>
                         </div>
 
+                        <!--Multipart form rendered from payment option, required tags added on render/ home transfer-->
                         <div class="home-transfer" id="block-home-transfer">
                             <h2> Home Transfer</h2>
                             <div class="form-group row ">
@@ -213,7 +213,7 @@
                                 </div>
                             </div>
                             <div class="form-group row ">
-                                <label for="ref-acc-num" class="col-md 5 col-form-label">Account Number/ IBAN</label>
+                                <label for="ref-acc-num" class="col-md 5 col-form-label">Account Number</label>
                                 <div class="col-md 5">
                                     <input type="text" name="ref-acc-num-ht" id="ref-acc-num-ht">
                                 </div>
@@ -221,10 +221,15 @@
                             <div class="form-group row ">
                                 <label for="ref-sort-code" class="col-md 5 col-form-label">Sort Code</label>
                                 <div class="col-md 5">
-                                    <input type="text" name="ref-sort-code-ht" id="ref-sort-code-ht">
+                                    <input type="text" name="ref-sort-code-ht" maxlength="2" size="2" /> -
+                                    <input type="text" name="ref-sort-code-ht" maxlength="2" size="2" /> -
+                                    <input type="text" name="ref-sort-code-ht" maxlength="2" size="2" />
                                 </div>
                             </div>
                         </div>
+
+                        <!--Reason for refund, @TODO add in required tags on render and removal id="ref-sort-code-ht"-->
+
                         <div class="portal-extra" id="portal-extra2">
                             <h2 style="text-align: center;">Reason for Refund</h2>
                             <br>
@@ -258,7 +263,8 @@
                         <div class="form-group row">
                             <label for="checkbox-terms" class="col-md 5 form-label">By clicking here you accept all the terms and conditions</label>
                             <div class="col-md 5">
-                                <input type="checkbox" name="t/c-accepted" id="checkbox-terms" required>
+                                <input type="checkbox" name="t/c-accepted" id="checkbox-terms">
+                                <!--required-->
                             </div>
                         </div>
                         <div class="row">

@@ -12,8 +12,8 @@ function refTypeDisplay(type) {
             document.getElementById("block-home-transfer").style.display = "none";
             break;
         case "bank":
-            console.log("Display credit form elements")
-                //Display and make fields required
+            //console.log("Display credit form elements")
+            //Display and make fields required
             document.getElementById("block-home-transfer").style.display = "block";
             document.getElementById("ref-acc-name-ht").required = true;
             document.getElementById("ref-acc-num-ht").required = true;
@@ -26,7 +26,7 @@ function refTypeDisplay(type) {
             document.getElementById("ref-bank-name-it").required = false;
             document.getElementById("ref-bank-address-it").required = false;
 
-            document.getElementById("ref-person-paid").required = true;
+            //document.getElementById("ref-person-paid").required = true;
             document.getElementById("portal-extra").style.display = "block";
             document.getElementById("portal-extra2").style.display = "block";
             break;
@@ -62,7 +62,6 @@ function refTypeDisplay(type) {
             document.getElementById("ref-acc-num-ht").required = false;
             document.getElementById("ref-sort-code-ht").required = false;
             document.getElementById("block-home-transfer").style.display = "none";
-
 
             document.getElementById("portal-extra").style.display = "block";
             document.getElementById("portal-extra2").style.display = "block";
