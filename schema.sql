@@ -1,5 +1,5 @@
 CREATE TABLE refunds(
-    -- @TODO finshm creating schema
+    -- @TODO finish creating schema
     title varChar(10),
     first_name varChar(50) NOT NULL,
     last_name varChar(50) NOT NULL,
