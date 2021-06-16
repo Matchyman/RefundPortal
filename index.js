@@ -8,6 +8,7 @@ const multer = require('multer');
 var upload = multer({ dest: 'uploads/' });
 const app = express()
 const port = 3000;
+var refundFormValidation = require('./refund_modules/validation.js')
 
 // =========== SQL INFORMATION ============
 
@@ -61,7 +62,7 @@ app.post('/application',
     body('ref-acc-num-it').optional({ checkFalsy: true }).trim().escape().isIBAN().withMessage('This is not a valid IBAN number'),
     body('ref-swift-code-it').optional({ checkFalsy: true }).trim().escape().isBIC().withMessage('This is not a valid code'),
     body('ref-bank-name-it').optional({ checkFalsy: true }).trim().escape().isAlpha().withMessage('Please only use alphabetic characters'),
-    body('ref-bank-address-it').optional({ checkFalsy: true }).escape().isAlphanumeric.withMessage('Please do not use any symbols'),
+    body('ref-bank-address-it').optional({ checkFalsy: true }).escape().isAlphanumeric().withMessage('Please do not use any symbols'),
 
     //@home-transfer validation
     body('ref-acc-name-ht').optional({ checkFalsy: true }).escape().isLength({ min: 1 }).withMessage('Empty account name').isAlpha().withMessage('must contain alphabet letters'),
@@ -74,7 +75,7 @@ app.post('/application',
     body('t/c-accepted').toBoolean(),
 
     (req, res) => {
-        const errors = validationResult(req);
+        const errors = refundFormValidation(req);
         //console.log(req.body);
         //console.log(req.file);
         if (!errors.isEmpty()) {
@@ -87,6 +88,7 @@ app.post('/application',
                 //@TODO Create sql query that inserts into the database
             })
             console.log("Application Recieved Send email");
+
             //@TODO look into node email
             res.redirect('application');
         }
