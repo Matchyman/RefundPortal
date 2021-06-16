@@ -63,7 +63,6 @@ app.post('/application',
     body('ref-bank-name-it').optional({ checkFalsy: true }).trim().escape().isAlpha().withMessage('Please only use alphabetic characters'),
     body('ref-bank-address-it').optional({ checkFalsy: true }).escape().isAlphanumeric.withMessage('Please do not use any symbols'),
 
-
     //@home-transfer validation
     body('ref-acc-name-ht').optional({ checkFalsy: true }).escape().isLength({ min: 1 }).withMessage('Empty account name').isAlpha().withMessage('must contain alphabet letters'),
     body('ref-acc-num-ht').optional({ checkFalsy: true }).trim().escape().isLength({ min: 8, max: 8 }).withMessage('Account Number must be 8 digits long').isNumeric().withMessage('Must only use numbers'),
