@@ -48,6 +48,7 @@ app.post('/application',
 
     //@portal-transfer validation
 
+
     body('ref-first-name').trim().escape().isLength({ min: 1 }).withMessage('Empty first name').isAlpha().withMessage('First name must contain alphabet letters'),
     body('ref-last-name').trim().escape().isLength({ min: 1 }).withMessage('Empty last name').isAlpha().withMessage('Last name must contain alphabet letters'),
     body('student-number').trim().escape().isLength({ min: 7, max: 7 }).withMessage('Student number must be 7 digits').isNumeric().withMessage('Content must not contain alphabetic letters'),
@@ -75,9 +76,9 @@ app.post('/application',
     body('t/c-accepted').toBoolean(),
 
     (req, res) => {
-        const errors = refundFormValidation(req);
-        //console.log(req.body);
-        //console.log(req.file);
+        const errors = validationResult(req);
+        //console.log(errors);  
+
         if (!errors.isEmpty()) {
             console.log(errors.array());
             res.redirect('application');
@@ -92,6 +93,7 @@ app.post('/application',
             //@TODO look into node email
             res.redirect('application');
         }
+
     })
 
 app.get('/login', (req, res) => { // @TODO: Dependant on login/authentication requirements.
