@@ -51,6 +51,7 @@ app.get('/', (req, res) => {
 // @TODO Add in functionality for email to be sent
 // @TODO Form Validation using ExpressValidatior
 // @TODO need to add insertion of file and if visa has been refused
+// @TODO fix sort code 
 app.post('/application',
 
 
@@ -111,8 +112,11 @@ app.post('/application',
     body('t/c-accepted').toBoolean(),
 
     async(req, res) => {
+
         const errors = validationResult(req);
-        console.log(req.body)
+
+
+
         if (!errors.isEmpty()) {
             //console.log(errors.array());
             res.render('application.html', { errors: errors.array() });
