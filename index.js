@@ -9,7 +9,8 @@ const port = 3000;
 
 
 // =========== MSSQL INFORMATION ===========
-const sql = require('mssql')
+const sql = require('mssql');
+const { request } = require('express');
 
 const sqlConfig = {
     user: 'RefundAuth',
@@ -36,13 +37,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.get('/application', async(req, res) => { // The applicant applies here for the refund.
     res.render('application.html');
-    try {
-        await sql.connect(sqlConfig)
-        console.log(sql.query(`select * from refunds`))
-        console.log("Success")
-    } catch (error) {
-        console.log(error)
-    }
+
     console.log(`Viewing: Application`);
 })
 
@@ -56,6 +51,31 @@ app.get('/', (req, res) => {
 app.post('/application',
     //@TODO Form Validation using ExpressValidatior
 
+    /*
+    What gets passed through 
+    {
+  'stu-pay': '',
+  'ref-title': '',
+  'ref-first-name': '',
+  'ref-last-name': '',
+  'student-number': '',
+  'ref-payer-title': '',
+  'ref-payer-first-name': '',
+  'ref-payer-last-name': '',
+  'ref-payer-address': '',
+  'ref-acc-name-it': '',
+  'ref-acc-num-it': '',
+  'ref-swift-code-it': '',
+  'ref-bank-name-it': '',
+  'ref-bank-address-it': '',
+  'ref-acc-name-ht': '',
+  'ref-acc-num-ht': '',
+  'ref-sort-code-ht': '',
+  'ref-reason': '',
+  'ref-ex-reasons': '',
+  't/c-accepted': true
+    }
+    */
 
     //File Uploading
     upload.single('ref-notice-file'),
@@ -87,18 +107,57 @@ app.post('/application',
     body('ref-ex-reason').optional({ checkFalsy: true }).trim().escape().isAlphanumeric().withMessage('Text may only contain alphanumeric characters'),
     body('t/c-accepted').toBoolean(),
 
-    (req, res) => {
+    async(req, res) => {
         const errors = validationResult(req);
-        //console.log(errors);  
-        console.log(req.body['ref-first-name']);
+        //console.log(req.body)
         if (!errors.isEmpty()) {
             console.log(errors.array());
-            res.redirect('application');
-
+            res.redirect('application', { errors: errors });
         } else {
             console.log("Free of errors insert into database")
+                //@TODO Create sql query that inserts into the database
+            try {
+                await sql.connect(sqlConfig)
+                const request = new sql.Request()
 
-            //@TODO Create sql query that inserts into the database
+                request.input('stu_pay', req.body['stu-pay'])
+                request.input('title', req.body['ref-title'])
+                request.input('first_name', req.body['ref-first-name'])
+                request.input('last_name', req.body['ref-last-name'])
+                request.input('student_number', req.body['student-number'])
+
+                request.input('payer_title', req.body['ref-payer-title'])
+                request.input('payer_first_name', req.body['ref-payer-first-name'])
+                request.input('payer_last_name', req.body['ref-payer-last-name'])
+                request.input('payer_address', req.body['ref-payer-address'])
+
+                request.input('acc_name_it', req.body['ref-acc-name-it'])
+                request.input('acc_num_it', req.body['ref-acc-num-it'])
+                request.input('swift_code_it', req.body['ref-swift-code-it'])
+                request.input('bank_name_it', req.body['ref-bank-name-it'])
+                request.input('bank_address_it', req.body['ref-bank-address-it'])
+
+                request.input('acc_name_ht', req.body['ref-acc-name-ht'])
+                request.input('acc_num_ht', req.body['ref-acc-num-ht'])
+                request.input('sort_code_ht', req.body['ref-sort-code-ht'])
+
+                request.input('reason', req.body['ref-reason'])
+                request.input('ex_reasons', req.body['ref-ex-reasons'])
+
+                request.query('INSERT INTO refunds' +
+                    '(pay_type, title, first_name, last_name, student_number,' +
+                    'payer_title, payer_first_name, payer_last_name, payer_address,' +
+                    'acc_name_it, acc_iban_it, acc_swift_it, acc_bank_name_it, acc_bank_address_it,' +
+                    'acc_name_ht, acc_num_ht, acc_sort_code, ref_reason, ref_ex_reason) VALUES' +
+
+                    '(@stu_pay, @title, @first_name,@last_name, @student_number,' +
+                    '@payer_title, @payer_first_name, @payer_last_name,@payer_address,' +
+                    '@acc_name_it, @acc_num_it, @swift_code_it, @bank_name_it, @bank_address_it,' +
+                    '@acc_name_ht, @acc_num_ht, @sort_code_ht, @reason, @ex_reasons);')
+
+            } catch (error) {
+                console.log(error)
+            }
 
             console.log("Application Recieved Send email");
 
