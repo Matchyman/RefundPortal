@@ -1,34 +1,48 @@
 const express = require('express');
-const mysql = require('mysql');
 const bodyParser = require('body-parser');
 const { body, validationResult, sanitizeBody, check, oneOf } = require('express-validator');
-const config = require("./security/db.json");
 const multer = require('multer');
 //File Uploading need to reroute to db
 var upload = multer({ dest: 'uploads/' });
 const app = express()
 const port = 3000;
-var refundFormValidation = require('./refund_modules/validation.js')
 
-// =========== SQL INFORMATION ============
 
-var pool = mysql.createPool({ // To change the details, change the values in security/db.json
-    host: config.host,
-    user: config.user,
-    password: config.password,
-    database: config.database,
-    multipleStatements: true
-});
+// =========== MSSQL INFORMATION ===========
+const sql = require('mssql')
 
-// ========================================
+const sqlConfig = {
+    user: 'RefundAuth',
+    password: 'notgonnausethis',
+    database: 'ProjectDigitise',
+    server: 'notcreative.co.uk',
+    pool: {
+        max: 10,
+        min: 0,
+        idleTimeoutMillis: 30000
+    },
+    options: {
+        encrypt: true,
+        trustServerCertificate: true
+    }
+}
+
+// ==========================================
 
 app.engine('html', require('ejs').renderFile);
 app.use(express.static(__dirname + '/public/')); // Assets go in the public folder.
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get('/application', (req, res) => { // The applicant applies here for the refund.
+app.get('/application', async(req, res) => { // The applicant applies here for the refund.
     res.render('application.html');
+    try {
+        await sql.connect(sqlConfig)
+        console.log(sql.query(`select * from refunds`))
+        console.log("Success")
+    } catch (error) {
+        console.log(error)
+    }
     console.log(`Viewing: Application`);
 })
 
@@ -47,8 +61,6 @@ app.post('/application',
     upload.single('ref-notice-file'),
 
     //@portal-transfer validation
-
-
     body('ref-first-name').trim().escape().isLength({ min: 1 }).withMessage('Empty first name').isAlpha().withMessage('First name must contain alphabet letters'),
     body('ref-last-name').trim().escape().isLength({ min: 1 }).withMessage('Empty last name').isAlpha().withMessage('Last name must contain alphabet letters'),
     body('student-number').trim().escape().isLength({ min: 7, max: 7 }).withMessage('Student number must be 7 digits').isNumeric().withMessage('Content must not contain alphabetic letters'),
@@ -78,16 +90,16 @@ app.post('/application',
     (req, res) => {
         const errors = validationResult(req);
         //console.log(errors);  
-
+        console.log(req.body['ref-first-name']);
         if (!errors.isEmpty()) {
             console.log(errors.array());
             res.redirect('application');
 
         } else {
             console.log("Free of errors insert into database")
-            pool.getConnection(function(err, connection) {
-                //@TODO Create sql query that inserts into the database
-            })
+
+            //@TODO Create sql query that inserts into the database
+
             console.log("Application Recieved Send email");
 
             //@TODO look into node email

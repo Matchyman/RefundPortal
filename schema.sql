@@ -21,16 +21,18 @@ CREATE TABLE refunds(
     acc_sort_code char(9),
 
     ref_reason text,
-    visa_ref boolean,
+    visa_ref bit,
     visa_ref_file image,
     ref_ex_reason text,
-    tcs_accepted  boolean,
+    tcs_accepted  bit,
 
-    int_accept boolean,
+    int_accept bit,
     int_dec_date date,
     int_rej-reason text,
-    fi_accept boolean,
+    fi_accept bit,
     fi_dec_date date,
     fi_rej_reason text,
 
 );
+
+ 
