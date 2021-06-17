@@ -39,10 +39,35 @@
             <div id="home" class="tab-pane fade in active">
                 <h3>Getting Started.</h3>
                 <p>A brief intro into the application and the tabs show different parts of information.</p>
+                <table name="tableinternational" class="internationaltable">
+                    <thead>
+                        <th> Name </th>
+                        <th> Student Number </th>
+                        <th> Refund Reason </th>
+                        <th> Visa Refusal Document</th>
+                        <th> Accept/Deny </th>
+                    </thead>
+                    <% data.recordset.forEach(data => { %>
+                        <tbody>
+
+                            <td>
+                                <%= data.title  %>
+                            </td>
+                            <td>
+                                <%= data.student_number %>
+                            </td>
+                            <td> </td>
+                            <td> </td>
+                            <td> </td>
+
+                        </tbody>
+                        <% }) %>
+                </table>
             </div>
             <div id="Applications" class="tab-pane fade">
                 <h3>Pending Applications</h3>
                 <p>Applications pending will go here.</p>
+
             </div>
             <div id="FinancePeople" class="tab-pane fade">
                 <h3>Finance People</h3>
@@ -59,3 +84,37 @@
 </body>
 
 </html>
+<!--
+{
+      pay_type: 'portal',
+      title: 'Mr',
+      first_name: 'James',
+      last_name: 'Matcham',
+      student_number: '1702792',
+      payer_title: '',
+      payer_first_name: '',
+      payer_last_name: '',
+      payer_address: '',
+      acc_name_it: '',
+      acc_iban_it: '',
+      acc_swift_it: '',
+      acc_bank_name_it: '',
+      acc_bank_address_it: '',
+      acc_name_ht: '',
+      acc_num_ht: '        ',
+      acc_sort_code: '         ',
+      ref_reason: '',
+      visa_ref: null,
+      visa_ref_file: null,
+      ref_ex_reason: '',
+      tcs_accepted: true,
+      int_accept: null,
+      int_dec_date: null,
+      int_rej_reason: null,
+      fi_accept: null,
+      fi_dec_date: null,
+      fi_rej_reason: null
+    }
+
+     
+-->

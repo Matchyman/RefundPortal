@@ -103,7 +103,7 @@ app.post('/application',
     //@home-transfer validation
     body('ref-acc-name-ht').optional({ checkFalsy: true }).escape().isLength({ min: 1 }).withMessage('Empty account name').isAlpha().withMessage('must contain alphabet letters'),
     body('ref-acc-num-ht').optional({ checkFalsy: true }).trim().escape().isLength({ min: 8, max: 8 }).withMessage('Account Number must be 8 digits long').isNumeric().withMessage('Must only use numbers'),
-    check('ref-sort-code-ht').optional({ checkFalsy: true }).escape().isNumeric().withMessage('Must only contain digits'),
+    check('ref-sort-code-ht').optional({ checkFalsy: true }).escape().isAlphanumeric().withMessage('Must only contain digits'),
 
     //@portal-extra2 validation
     body('ref-reason').optional({ checkFalsy: true }).trim().escape().isAlphanumeric().withMessage('Text may only contain alphanumeric characters'),
@@ -112,9 +112,9 @@ app.post('/application',
 
     async(req, res) => {
         const errors = validationResult(req);
-        //console.log(req.body)
+        console.log(req.body)
         if (!errors.isEmpty()) {
-            console.log(errors.array());
+            //console.log(errors.array());
             res.render('application.html', { errors: errors.array() });
         } else {
             console.log("Free of errors insert into database")
@@ -156,15 +156,15 @@ app.post('/application',
                     '@payer_title, @payer_first_name, @payer_last_name,@payer_address,' +
                     '@acc_name_it, @acc_num_it, @swift_code_it, @bank_name_it, @bank_address_it,' +
                     '@acc_name_ht, @acc_num_ht, @sort_code_ht, @reason, @ex_reasons);')
-                console.log("Application Recieved Send email");
 
-                res.redirect('application');
 
             } catch (error) {
                 console.log(error)
             }
 
+            console.log("Application Recieved Send email");
 
+            res.redirect('application');
         }
 
     })
@@ -173,27 +173,34 @@ app.get('/login', (req, res) => { // @TODO: Dependant on login/authentication re
     res.render('login.html');
 })
 
-app.post('/postLogin', (req, res) => { // @TODO: Dependant on login/authentication requirements.
-    console.log(req.body)
-    pool.getConnection(function(err, connection) {
-        if (err) throw err;
-        connection.query(`
-                        SELECT * FROM refundAuthentication WHERE userID = '${req.body.username}'
-                        `, function(err, result, fields) {
-            if (err) throw err;
-            // console.log(result[0].userID); // -- Ensuring a valid entry is returned.
-            if (result != '') {
-                if (req.body.password == result[0].userPassword) {
-                    connection.release();
-                    res.render('management.html');
-                }
-            } else {
-                connection.release();
-                res.redirect('login.html');
-            }
-        })
+app.post('/postLogin', async(req, res) => { // @TODO: Dependant on login/authentication requirements.
+    //console.log(req.body)
+    await sql.connect(sqlConfig)
+    const request = new sql.Request()
+    request.query('select * from refunds', (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.render('management.html', { data: result });
+        }
     })
+
+
+
+
+    // console.log(result[0].userID); // -- Ensuring a valid entry is returned.
+
+
+
+
+
+
+
+
+    //res.redirect('login.html');
+
 })
+
 
 app.post('/search', (req, res) => { //
     // @TODO: implement search function here once data is acquired.
