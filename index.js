@@ -115,7 +115,7 @@ app.post('/application',
             res.redirect('application', { errors: errors });
         } else {
             console.log("Free of errors insert into database")
-                //@TODO Create sql query that inserts into the database
+                //@TODO need to add insertion of file and if visa has been refused
             try {
                 await sql.connect(sqlConfig)
                 const request = new sql.Request()
@@ -143,6 +143,7 @@ app.post('/application',
 
                 request.input('reason', req.body['ref-reason'])
                 request.input('ex_reasons', req.body['ref-ex-reasons'])
+                console.log(req.body['ref-payer-first-name']);
 
                 request.query('INSERT INTO refunds' +
                     '(pay_type, title, first_name, last_name, student_number,' +
@@ -175,7 +176,9 @@ app.post('/postLogin', (req, res) => { // @TODO: Dependant on login/authenticati
     console.log(req.body)
     pool.getConnection(function(err, connection) {
         if (err) throw err;
-        connection.query(`SELECT * FROM refundAuthentication WHERE userID = '${req.body.username}'`, function(err, result, fields) {
+        connection.query(`
+                        SELECT * FROM refundAuthentication WHERE userID = '${req.body.username}'
+                        `, function(err, result, fields) {
             if (err) throw err;
             // console.log(result[0].userID); // -- Ensuring a valid entry is returned.
             if (result != '') {
@@ -196,5 +199,6 @@ app.post('/search', (req, res) => { //
 })
 
 app.listen(port, () => {
-    console.log(`Application started @ http://localhost:${port}`)
+    console.log(`
+                        Application started @ http: //localhost:${port}`)
 })
