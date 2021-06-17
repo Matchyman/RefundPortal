@@ -36,7 +36,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/application', async(req, res) => { // The applicant applies here for the refund.
-    res.render('application.html');
+    const errors = []
+    res.render('application.html', { 'errors': errors });
 
     console.log(`Viewing: Application`);
 })
@@ -48,8 +49,10 @@ app.get('/', (req, res) => {
 
 
 // @TODO Add in functionality for email to be sent
+// @TODO Form Validation using ExpressValidatior
+// @TODO need to add insertion of file and if visa has been refused
 app.post('/application',
-    //@TODO Form Validation using ExpressValidatior
+
 
     /*
     What gets passed through 
@@ -112,10 +115,9 @@ app.post('/application',
         //console.log(req.body)
         if (!errors.isEmpty()) {
             console.log(errors.array());
-            res.redirect('application', { errors: errors });
+            res.render('application.html', { errors: errors.array() });
         } else {
             console.log("Free of errors insert into database")
-                //@TODO need to add insertion of file and if visa has been refused
             try {
                 await sql.connect(sqlConfig)
                 const request = new sql.Request()
@@ -143,7 +145,6 @@ app.post('/application',
 
                 request.input('reason', req.body['ref-reason'])
                 request.input('ex_reasons', req.body['ref-ex-reasons'])
-                console.log(req.body['ref-payer-first-name']);
 
                 request.query('INSERT INTO refunds' +
                     '(pay_type, title, first_name, last_name, student_number,' +
@@ -155,15 +156,15 @@ app.post('/application',
                     '@payer_title, @payer_first_name, @payer_last_name,@payer_address,' +
                     '@acc_name_it, @acc_num_it, @swift_code_it, @bank_name_it, @bank_address_it,' +
                     '@acc_name_ht, @acc_num_ht, @sort_code_ht, @reason, @ex_reasons);')
+                console.log("Application Recieved Send email");
+
+                res.redirect('application');
 
             } catch (error) {
                 console.log(error)
             }
 
-            console.log("Application Recieved Send email");
 
-            //@TODO look into node email
-            res.redirect('application');
         }
 
     })
@@ -199,6 +200,5 @@ app.post('/search', (req, res) => { //
 })
 
 app.listen(port, () => {
-    console.log(`
-                        Application started @ http: //localhost:${port}`)
+    console.log(`Application started @ http: //localhost:${port}`)
 })
