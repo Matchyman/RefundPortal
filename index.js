@@ -53,8 +53,6 @@ app.get('/', (req, res) => {
 // @TODO need to add insertion of file and if visa has been refused
 // @TODO fix sort code 
 app.post('/application',
-
-
     /*
     What gets passed through 
     {
@@ -105,6 +103,8 @@ app.post('/application',
     body('ref-acc-name-ht').optional({ checkFalsy: true }).escape().isLength({ min: 1 }).withMessage('Empty account name').isAlpha().withMessage('must contain alphabet letters'),
     body('ref-acc-num-ht').optional({ checkFalsy: true }).trim().escape().isLength({ min: 8, max: 8 }).withMessage('Account Number must be 8 digits long').isNumeric().withMessage('Must only use numbers'),
     check('ref-sort-code-ht').optional({ checkFalsy: true }).escape().isAlphanumeric().withMessage('Must only contain digits'),
+    check('ref-sort-code-ht1').optional({ checkFalsy: true }).escape().isAlphanumeric().withMessage('Must only contain digits'),
+    check('ref-sort-code-ht2').optional({ checkFalsy: true }).escape().isAlphanumeric().withMessage('Must only contain digits'),
 
     //@portal-extra2 validation
     body('ref-reason').optional({ checkFalsy: true }).trim().escape().isAlphanumeric().withMessage('Text may only contain alphanumeric characters'),
@@ -114,11 +114,11 @@ app.post('/application',
     async(req, res) => {
 
         const errors = validationResult(req);
-
-
+        console.log(req.body);
 
         if (!errors.isEmpty()) {
             //console.log(errors.array());
+
             res.render('application.html', { errors: errors.array() });
         } else {
             console.log("Free of errors insert into database")
@@ -145,7 +145,7 @@ app.post('/application',
 
                 request.input('acc_name_ht', req.body['ref-acc-name-ht'])
                 request.input('acc_num_ht', req.body['ref-acc-num-ht'])
-                request.input('sort_code_ht', req.body['ref-sort-code-ht'])
+                request.input('sort_code_ht', req.body['ref-sort-code-ht'] + req.body['ref-sort-code-ht1'] + req.body['ref-sort-code-ht2'])
 
                 request.input('reason', req.body['ref-reason'])
                 request.input('ex_reasons', req.body['ref-ex-reasons'])
@@ -182,26 +182,14 @@ app.post('/postLogin', async(req, res) => { // @TODO: Dependant on login/authent
     await sql.connect(sqlConfig)
     const request = new sql.Request()
     request.query('select * from refunds', (err, result) => {
-        if (err) {
-            console.log(err);
-        } else {
-            res.render('management.html', { data: result });
-        }
-    })
-
-
-
-
-    // console.log(result[0].userID); // -- Ensuring a valid entry is returned.
-
-
-
-
-
-
-
-
-    //res.redirect('login.html');
+            if (err) {
+                console.log(err);
+            } else {
+                res.render('management.html', { data: result });
+            }
+        })
+        // console.log(result[0].userID); // -- Ensuring a valid entry is returned.
+        //res.redirect('login.html');
 
 })
 
@@ -211,5 +199,5 @@ app.post('/search', (req, res) => { //
 })
 
 app.listen(port, () => {
-    console.log(`Application started @ http: //localhost:${port}`)
+    console.log(`Application started @ http://localhost:${port}`)
 })
