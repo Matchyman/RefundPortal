@@ -60,35 +60,8 @@ app.get('/', (req, res) => {
 
 
 // @TODO Add in functionality for email to be sent
-// @TODO if visa has been refused
+
 app.post('/application',
-    /*
-        What gets passed through 
-        {
-      'stu-pay': '',
-      'ref-title': '',
-      'ref-first-name': '',
-      'ref-last-name': '',
-      'student-number': '',
-      'ref-payer-title': '',
-      'ref-payer-first-name': '',
-      'ref-payer-last-name': '',
-      'ref-payer-address': '',
-      'ref-acc-name-it': '',
-      'ref-acc-num-it': '',
-      'ref-swift-code-it': '',
-      'ref-bank-name-it': '',
-      'ref-bank-address-it': '',
-      'ref-acc-name-ht': '',
-      'ref-acc-num-ht': '',
-      'ref-sort-code-ht': '',
-      'ref-reason': '',
-      'ref-ex-reasons': '',
-      't/c-accepted': true
-        }
-    */
-
-
     upload.single('ref-notice-file'),
 
     //@portal-transfer validation
@@ -223,7 +196,6 @@ app.post('/intsubmission', async(req, res) => {
     await sql.connect(sqlConfig)
     const request = new sql.Request()
 
-    //request.input('date', date.now())
     request.input('stu_num', req.body['stu_num'])
     request.input('dec_date', sql.Date, getDate())
     if (req.body['intAccept'] === 'true') {
@@ -261,7 +233,6 @@ app.post('/fisubmission', async(req, res) => {
         console.log('Update Database with Accept')
         sendEmail()
     } else {
-        //@TODO Additional Deny Logic needed
         console.log('Update Database with Deny')
         request.input('denyReason', req.body['denyReason'])
         request.query('update refunds set fi_accept = 0, fi_rej_reason = @denyReason, fi_dec_date = @dec_date where student_number = @stu_num ');
