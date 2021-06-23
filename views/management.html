@@ -74,10 +74,10 @@
                                     <td>
                                         <div align="center">
                                         <button class="btn btn-success" name="intAccept" value="true" >Accept</button>
-                                        <button class="btn btn-danger" name="intAccept" value="false">Deny</button>
+                                        <button class="btn btn-danger" name="intAccept" value="false" onclick = "denyReason()">Deny</button>
                                         </div>
                                     </td>
-
+                                    <input name = "denyReason" id= "denyReason" hidden> 
                                     <input name="stu_num" value="<%= data.student_number %>" hidden>
                                 </form>
                             </tbody>
@@ -117,7 +117,7 @@
                                 <form action="/fisubmission" name="int_submission" method="POST">
                                     <td>
                                         <button class="submissionButton" name="fiAccept" value="true">Accept</button>
-                                        <button class="submissionButton" name="fiAccept" value="false">Deny</button>
+                                        <button class="submissionButton" name="fiAccept" value="false" onclick = "denyReason()">Deny</button>
                                     </td>
 
                                     <input name="stu_num" value="<%= data.student_number %>" hidden>
@@ -163,7 +163,7 @@
         </div>
     </div>
 
-
+    <script src="scripts/scripts.js" async defer></script>
 </body>
 
 </html>

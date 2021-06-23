@@ -39,7 +39,7 @@ app.use(express.urlencoded({ extended: true }));
 app.get('/application', async(req, res) => { // The applicant applies here for the refund.
     const errors = []
     res.render('application.html', { 'errors': errors });
-
+    getDate();
     console.log(`Viewing: Application`);
 })
 
@@ -50,9 +50,7 @@ app.get('/', (req, res) => {
 
 
 // @TODO Add in functionality for email to be sent
-// @TODO Form Validation using ExpressValidatior
-// @TODO need to add insertion of file and if visa has been refused
-// @TODO fix sort code 
+// @TODO if visa has been refused
 app.post('/application',
     /*
         What gets passed through 
@@ -201,18 +199,15 @@ app.post('/postLogin', async(req, res) => { // @TODO: Dependant on login/authent
     await sql.connect(sqlConfig)
     const request = new sql.Request()
     request.query('select * from refunds', (err, result) => {
-        if (err) {
-            console.log(err);
-        } else {
-            res.render('management.html', { data: result });
-        }
-    })
-
-    //res.redirect('login.html');
-
+            if (err) {
+                console.log(err);
+            } else {
+                res.render('management.html', { data: result });
+            }
+        })
+        //res.redirect('login.html');
 })
 
-//@TODO Implement post methods for the accept/deny logic
 app.post('/intsubmission', async(req, res) => {
     console.log(req.body);
 
@@ -221,20 +216,20 @@ app.post('/intsubmission', async(req, res) => {
 
     //request.input('date', date.now())
     request.input('stu_num', req.body['stu_num'])
+    request.input('dec_date', sql.Date, getDate())
     if (req.body['intAccept'] === 'true') {
         console.log('Update Database with Accept')
         request.input('input_param', sql.Bit, req.body['intAccept'])
-        request.query('update refunds set int_accept = @input_param where student_number = @stu_num ');
-
+        request.query('update refunds set int_accept = @input_param, int_dec_date = @dec_date where student_number = @stu_num ');
         console.log('Update Database with Accept')
         sendEmail()
     } else {
         //@TODO Additional Deny Logic needed
         console.log('Update Database with Deny')
         request.input('input_param', sql.Bit, req.body['intAccept'])
-        request.query('update refunds set int_accept = @input_param where student_number = @stu_num ');
+        request.query('update refunds set int_accept = @input_param, int_dec_date = @dec_date where student_number = @stu_num ');
 
-        sendEmail()
+        sendEmailDeny()
     }
     request.query('select * from refunds', (err, result) => {
         if (err) {
@@ -251,19 +246,19 @@ app.post('/fisubmission', async(req, res) => {
     await sql.connect(sqlConfig)
     const request = new sql.Request()
     request.input('stu_num', req.body['stu_num'])
+    request.input('dec_date', sql.Date, getDate())
     if (req.body['fiAccept'] === 'true') {
         console.log('Update Database with Accept')
         request.input('input_param', sql.Bit, req.body['fiAccept'])
-        request.query('update refunds set fi_accept = @input_param where student_number = @stu_num ');
-
+        request.query('update refunds set fi_accept = @input_param, fi_dec_date = @dec_date where student_number = @stu_num ');
         console.log('Update Database with Accept')
         sendEmail()
     } else {
         //@TODO Additional Deny Logic needed
         console.log('Update Database with Deny')
         request.input('input_param', sql.Bit, req.body['fiAccept'])
-        request.query('update refunds set fi_accept = @input_param where student_number = @stu_num ');
-        sendEmail()
+        request.query('update refunds set fi_accept = @input_param, fi_dec_date = @dec_date where student_number = @stu_num ');
+        sendEmailDeny()
     }
     request.query('select * from refunds', (err, result) => {
         if (err) {
@@ -286,4 +281,14 @@ app.listen(port, () => {
 
 function sendEmail() {
 
+}
+
+function sendEmailDeny() {
+
+}
+
+function getDate() {
+    //dd/mm/yyyy format
+    d = new Date();
+    return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
 }
