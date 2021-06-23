@@ -225,6 +225,7 @@ app.post('/intsubmission', async(req, res) => {
         console.log('Update Database with Accept')
         sendEmail()
     } else {
+        //@TODO Additional Deny Logic needed
         console.log('Update Database with Deny')
         request.input('input_param', sql.Bit, req.body['intAccept'])
         request.query('update refunds set int_accept = @input_param where student_number = @stu_num ');
@@ -254,6 +255,7 @@ app.post('/fisubmission', async(req, res) => {
         console.log('Update Database with Accept')
         sendEmail()
     } else {
+        //@TODO Additional Deny Logic needed
         console.log('Update Database with Deny')
         request.input('input_param', sql.Bit, req.body['fiAccept'])
         request.query('update refunds set fi_accept = @input_param where student_number = @stu_num ');
