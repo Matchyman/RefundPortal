@@ -35,6 +35,16 @@ textarea {
     height: 100px;
 }
 
+th {
+    size: 70px;
+    height: 60px;
+    font-size: larger;
+}
+
 td {
-    text-align: center;
+    font-size: large;
+}
+
+table {
+    width: 100%;
 }

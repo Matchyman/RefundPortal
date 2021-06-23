@@ -7,6 +7,7 @@
     <title>Refund Portal</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/css/style.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
@@ -39,7 +40,12 @@
             <div id="home" class="tab-pane fade in active">
                 <h3>Getting Started.</h3>
                 <p>A brief intro into the application and the tabs show different parts of information.</p>
-                <table name="tableinternational" class="internationaltable">
+
+            </div>
+            <div id="Applications" class="tab-pane fade">
+                <h3>Pending Applications</h3>
+                <p>Applications pending will go here.</p>
+                <table>
                     <thead>
                         <th> Name </th>
                         <th> Student Number </th>
@@ -48,25 +54,35 @@
                         <th> Accept/Deny </th>
                     </thead>
                     <% data.recordset.forEach(data => { %>
-                        <tbody>
+                        <% if (data.int_accept === null) { %>
 
-                            <td>
-                                <%= data.title  %>
-                            </td>
-                            <td>
-                                <%= data.student_number %>
-                            </td>
-                            <td> </td>
-                            <td> </td>
-                            <td> </td>
 
-                        </tbody>
-                        <% }) %>
+                            <tbody>
+
+                                <td>
+                                    <%= `${data.title} ${data.first_name} ${data.last_name}` %>
+                                </td>
+                                <td>
+                                    <%= data.student_number %>
+                                </td>
+                                <td>
+                                    <%= data.ref_reason %>
+                                </td>
+                                <td>
+                                    <!-- Here is where the image file goes atm  -->
+                                </td>
+                                <form action="/intsubmission" name="int_submission" method="POST">
+                                    <td>
+                                        <button class="submissionButton" name="intAccept" value="true">Accept</button>
+                                        <button class="submissionButton" name="intAccept" value="false">Deny</button>
+                                    </td>
+
+                                    <input name="stu_num" value="<%= data.student_number %>" hidden>
+                                </form>
+                            </tbody>
+                            <% } %>
+                                <% }) %>
                 </table>
-            </div>
-            <div id="Applications" class="tab-pane fade">
-                <h3>Pending Applications</h3>
-                <p>Applications pending will go here.</p>
 
             </div>
             <div id="FinancePeople" class="tab-pane fade">
