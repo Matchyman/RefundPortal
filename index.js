@@ -204,14 +204,14 @@ app.get('/login', (req, res) => { // @TODO: Dependant on login/authentication re
 })
 
 app.post('/postLogin', async(req, res) => { // @TODO: Dependant on login/authentication requirements.
-    //console.log(req.body)
+    console.log("Now Viewing Management Page");
     await sql.connect(sqlConfig)
     const request = new sql.Request()
     request.query('select * from refunds', (err, result) => {
             if (err) {
                 console.log(err);
             } else {
-                res.render('management.html', { data: result });
+                res.render('management.html', { data: result, denyReasonPrompt:"denyReasonPrompt();" });
             }
         })
         //res.redirect('login.html');
@@ -227,14 +227,14 @@ app.post('/intsubmission', async(req, res) => {
     request.input('stu_num', req.body['stu_num'])
     request.input('dec_date', sql.Date, getDate())
     if (req.body['intAccept'] === 'true') {
-        console.log('Update Database with Accept')
+        // console.log('Update Database with Accept')
         request.query('update refunds set int_accept = 1, int_dec_date = @dec_date where student_number = @stu_num ');
         console.log('Update Database with Accept')
         sendEmail()
     } else {
-        //@TODO Additional Deny Logic needed
         console.log('Update Database with Deny')
-        request.query('update refunds set int_accept = 0, fi_accept = 0, int_dec_date = @dec_date where student_number = @stu_num ');
+        request.input('denyReason', req.body['denyReason'])
+        request.query('update refunds set int_accept = 0, int_rej_reason = @denyReason, fi_accept = 0, int_dec_date = @dec_date where student_number = @stu_num ');
 
         sendEmailDeny()
     }
@@ -242,7 +242,7 @@ app.post('/intsubmission', async(req, res) => {
         if (err) {
             console.log(err);
         } else {
-            res.render('management.html', { data: result })
+            res.redirect(307, '/postLogin');
         }
     })
 
@@ -250,6 +250,7 @@ app.post('/intsubmission', async(req, res) => {
 })
 
 app.post('/fisubmission', async(req, res) => {
+    console.log("Now Posting Finance Submission Page");
     await sql.connect(sqlConfig)
     const request = new sql.Request()
     request.input('stu_num', req.body['stu_num'])
@@ -262,14 +263,15 @@ app.post('/fisubmission', async(req, res) => {
     } else {
         //@TODO Additional Deny Logic needed
         console.log('Update Database with Deny')
-        request.query('update refunds set fi_accept = 0, fi_dec_date = @dec_date where student_number = @stu_num ');
+        request.input('denyReason', req.body['denyReason'])
+        request.query('update refunds set fi_accept = 0, fi_rej_reason = @denyReason, fi_dec_date = @dec_date where student_number = @stu_num ');
         sendEmailDeny()
     }
     request.query('select * from refunds', (err, result) => {
         if (err) {
             console.log(err);
         } else {
-            res.render('management.html', { data: result })
+            res.redirect(307, '/postLogin');
         }
     })
 })

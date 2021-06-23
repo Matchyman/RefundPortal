@@ -74,7 +74,7 @@
                                     <td>
                                         <div align="center">
                                         <button class="btn btn-success" name="intAccept" value="true" >Accept</button>
-                                        <button class="btn btn-danger" name="intAccept" value="false" onclick = "denyReason()">Deny</button>
+                                        <button class="btn btn-danger" name="intAccept" value="false" onclick='<%= denyReasonPrompt %>'>Deny</button>
                                         </div>
                                     </td>
                                     <input name = "denyReason" id= "denyReason" hidden> 
@@ -118,7 +118,7 @@
                                     <td>
                                         <button class="btn btn-success" name="fiAccept" value="true">Accept</button>
                                         <input name = "denyReason" id= "denyReason" hidden> 
-                                        <button class="btn btn-danger" name="fiAccept" value="false" onclick = "denyReason()">Deny</button>
+                                        <button class="btn btn-danger" name="fiAccept" value="false" onclick='<%= denyReasonPrompt %>'>Deny</button>
                                     </td>
 
                                     <input name="stu_num" value="<%= data.student_number %>" hidden>
@@ -164,7 +164,14 @@
         </div>
     </div>
 
-    <script src="scripts/scripts.js" async defer></script>
+    <script>
+
+    function denyReasonPrompt() {
+        var reason = prompt("Please enter deny reason", "Enter here");
+        document.getElementById("denyReason").value = reason;
+    }
+
+    </script>
 </body>
 
 </html>
