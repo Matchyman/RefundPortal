@@ -95,3 +95,10 @@ function refPayerDisplay(type) {
             break;
     }
 }
+
+function denyReason() {
+    prompt("Please enter deny reason", "Enter here");
+    document.getElementById("denyReason").innerHTML = reason;
+
+    //prompt("Please Enter Your Name", "bob");
+}

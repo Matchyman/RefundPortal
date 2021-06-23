@@ -7,6 +7,7 @@
     <title>Refund Portal</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/css/style.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
@@ -39,23 +40,138 @@
             <div id="home" class="tab-pane fade in active">
                 <h3>Getting Started.</h3>
                 <p>A brief intro into the application and the tabs show different parts of information.</p>
+
             </div>
             <div id="Applications" class="tab-pane fade">
                 <h3>Pending Applications</h3>
                 <p>Applications pending will go here.</p>
+                <table align="center">
+                    <thead>
+                        <th> Name </th>
+                        <th> Student Number </th>
+                        <th> Refund Reason </th>
+                        <th> Visa Refusal Document</th>
+                        <th>  </th>
+                    </thead>
+                    <% data.recordset.forEach(data => { %>
+                        <% if (data.int_accept === null) { %>
+
+                            <tbody>
+
+                                <td>
+                                    <%= `${data.title} ${data.first_name} ${data.last_name}` %>
+                                </td>
+                                <td>
+                                    <%= data.student_number %>
+                                </td>
+                                <td>
+                                    <%= data.ref_reason %>
+                                </td>
+                                <td>
+                                    <a href="/uploads/<%= data.visa_ref_file %>.png" target="_blank"><%= data.visa_ref_file %></a>
+                                </td>
+                                <form action="/intsubmission" name="int_submission" method="POST"> 
+                                    <td>
+                                        <div align="center">
+                                        <button class="btn btn-success" name="intAccept" value="true" >Accept</button>
+                                        <button class="btn btn-danger" name="intAccept" value="false" onclick='<%= denyReasonPrompt %>'>Deny</button>
+                                        </div>
+                                    </td>
+                                    <input name = "denyReason" id= "denyReason" hidden> 
+                                    <input name="stu_num" value="<%= data.student_number %>" hidden>
+                                </form>
+                            </tbody>
+                            <% } %>
+                                <% }) %>
+                </table>
+
             </div>
             <div id="FinancePeople" class="tab-pane fade">
                 <h3>Finance People</h3>
                 <p>I dont know what this is actually for</p>
+                <table>
+                    <thead>
+                        <th> Name </th>
+                        <th> Student Number </th>
+                        <th> Refund Reason </th>
+                        <th> Bank Details</th>
+                        <th> Accept/Deny </th>
+                    </thead>
+                    <% data.recordset.forEach(data => { %>
+                        <% if (data.int_accept != null && data.fi_accept === null && data.int_accept != false) { %>
+
+                            <tbody>
+
+                                <td>
+                                    <%= `${data.title} ${data.first_name} ${data.last_name}` %>
+                                </td>
+                                <td>
+                                    <%= data.student_number %>
+                                </td>
+                                <td>
+                                    <%= data.int_accept %>
+                                </td>
+                                <td>
+                                    <!-- Here is where the bank details goes atm  -->
+                                </td>
+                                <form action="/fisubmission" name="int_submission" method="POST">
+                                    <td>
+                                        <button class="btn btn-success" name="fiAccept" value="true">Accept</button>
+                                        <input name = "denyReason" id= "denyReason" hidden> 
+                                        <button class="btn btn-danger" name="fiAccept" value="false" onclick='<%= denyReasonPrompt %>'>Deny</button>
+                                    </td>
+
+                                    <input name="stu_num" value="<%= data.student_number %>" hidden>
+                                </form>
+                            </tbody>
+                            <% } %>
+                                <% }) %>
+                </table>
             </div>
             <div id="Completed" class="tab-pane fade">
                 <h3>Completed</h3>
                 <p>Completed applications are moved from Pending Applications to here.</p>
+                <table>
+                    <thead>
+                        <th> Name </th>
+                        <th> Student Number </th>
+                        <th> Refund Reason </th>
+                        <th> Completed On</th>
+
+                    </thead>
+                    <% data.recordset.forEach(data => { %>
+                        <% if (data.int_accept != null && data.fi_accept != null) { %>
+
+                            <tbody>
+
+                                <td>
+                                    <%= `${data.title} ${data.first_name} ${data.last_name}` %>
+                                </td>
+                                <td>
+                                    <%= data.student_number %>
+                                </td>
+                                <td>
+                                    <%= data.int_accept %>
+                                </td>
+                                <td>
+                                    <!-- Here is where the bank details goes atm  -->
+                                </td>
+
+                                <% } %>
+                                    <% }) %>
+                </table>
             </div>
         </div>
     </div>
 
+    <script>
 
+    function denyReasonPrompt() {
+        var reason = prompt("Please enter deny reason", "Enter here");
+        document.getElementById("denyReason").value = reason;
+    }
+
+    </script>
 </body>
 
 </html>

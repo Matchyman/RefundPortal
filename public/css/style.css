@@ -34,3 +34,22 @@
 textarea {
     height: 100px;
 }
+
+th {
+    size: 70px;
+    height: 60px;
+    font-size: larger;
+}
+
+td {
+    font-size: large;
+}
+
+table {
+    width: 100%;
+    text-align: center;
+}
+
+.errors {
+    color: red;
+}

@@ -1,0 +1,15 @@
+Fix scripts on application page [ Changing payment types breaks things ]
+
+Awais to actually do the login page [DESIGNS]
+    - LOGIN ENCRYPTION
+    - Page descriptions
+
+Tables to center (pls)
+Fix table headings and values (what shows)
+Fix completed on dates (completed section)
+
+Implement search functionality
+
+Get email credentials.
+    - Get it implemented.
+

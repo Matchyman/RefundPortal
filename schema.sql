@@ -1,6 +1,7 @@
 CREATE TABLE refunds(
     -- @TODO finish creating schema
-    title varChar(10),
+    pay_type varChar(15) NOT NULL,
+    title varChar(10) NOT NULL,
     first_name varChar(50) NOT NULL,
     last_name varChar(50) NOT NULL,
     student_number char(7) NOT NULL,
@@ -21,16 +22,18 @@ CREATE TABLE refunds(
     acc_sort_code char(9),
 
     ref_reason text,
-    visa_ref boolean,
+    visa_ref bit,
     visa_ref_file image,
     ref_ex_reason text,
-    tcs_accepted  boolean,
+    tcs_accepted  bit DEFAULT 1,
 
-    int_accept boolean,
+    int_accept bit,
     int_dec_date date,
-    int_rej-reason text,
-    fi_accept boolean,
+    int_rej_reason text,
+    fi_accept bit,
     fi_dec_date date,
     fi_rej_reason text,
 
 );
+
+ 
