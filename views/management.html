@@ -51,7 +51,7 @@
                         <th> Student Number </th>
                         <th> Refund Reason </th>
                         <th> Visa Refusal Document</th>
-                        <th> Accept/Deny </th>
+                        <th>  </th>
                     </thead>
                     <% data.recordset.forEach(data => { %>
                         <% if (data.int_accept === null) { %>
@@ -68,12 +68,14 @@
                                     <%= data.ref_reason %>
                                 </td>
                                 <td>
-                                    <!-- Here is where the image file goes atm  HOW TO RENDER THE FUCKING IMAGE HELP-->
+                                    <!-- Image to go here  -->
                                 </td>
-                                <form action="/intsubmission" name="int_submission" method="POST">
+                                <form action="/intsubmission" name="int_submission" method="POST"> 
                                     <td>
-                                        <button class="submissionButton" name="intAccept" value="true">Accept</button>
-                                        <button class="submissionButton" name="intAccept" value="false">Deny</button>
+                                        <div align="center">
+                                        <button class="btn btn-success" name="intAccept" value="true" >Accept</button>
+                                        <button class="btn btn-danger" name="intAccept" value="false">Deny</button>
+                                        </div>
                                     </td>
 
                                     <input name="stu_num" value="<%= data.student_number %>" hidden>

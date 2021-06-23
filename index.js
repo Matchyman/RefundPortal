@@ -86,7 +86,7 @@ app.post('/application',
     //@portal-transfer validation
     body('ref-first-name').trim().escape().isLength({ min: 1 }).withMessage('Empty first name').isAlpha().withMessage('First name must contain alphabet letters'),
     body('ref-last-name').trim().escape().isLength({ min: 1 }).withMessage('Empty last name').isAlpha().withMessage('Last name must contain alphabet letters'),
-    body('student-number').trim().escape().isLength({ min: 7, max: 7 }).withMessage('Student number must be 7 digits').isNumeric().withMessage('Content must not contain alphabetic letters'),
+    body('student-number').trim().escape().isLength({ min: 7, max: 7 }).withMessage('Student number must be 7 digits').isNumeric().withMessage('[Student Number] must not contain alphabetic letters'),
 
     //@portal-extra validation
     body('ref-payer-first-name').optional({ checkFalsy: true }).trim().escape().isLength({ min: 1 }).withMessage('Empty first name').isAlpha().withMessage('First name must contain alphabet letters'),
@@ -94,34 +94,38 @@ app.post('/application',
     body('ref-payer-address').optional({ checkFalsy: true }).escape().isLength({ min: 1 }).withMessage('Address must be filled in'),
 
     //@international-transfer validation @TODO finish validation for this part
-    body('ref-acc-name-it').optional({ checkFalsy: true }).trim().escape().isLength({ min: 1 }).withMessage('Empty account name').isAlpha().withMessage('must contain alphabet letters'),
-    body('ref-acc-num-it').optional({ checkFalsy: true }).trim().escape().isIBAN().withMessage('This is not a valid IBAN number'),
-    body('ref-swift-code-it').optional({ checkFalsy: true }).trim().escape().isBIC().withMessage('This is not a valid code'),
-    body('ref-bank-name-it').optional({ checkFalsy: true }).trim().escape().isAlpha().withMessage('Please only use alphabetic characters'),
-    body('ref-bank-address-it').optional({ checkFalsy: true }).escape().isAlphanumeric().withMessage('Please do not use any symbols'),
+    body('ref-acc-name-it').optional({ checkFalsy: true }).trim().escape().isLength({ min: 1 }).withMessage('Empty account name').isAlpha().withMessage('[Account Name] must contain alphabet letters'),
+    body('ref-acc-num-it').optional({ checkFalsy: true }).trim().escape().isIBAN().withMessage('[Account Number] This is not a valid IBAN number'),
+    body('ref-swift-code-it').optional({ checkFalsy: true }).trim().escape().isBIC().withMessage('[Swift Code] This is not a valid code'),
+    body('ref-bank-name-it').optional({ checkFalsy: true }).trim().escape().isAlpha().withMessage('[Bank Name] Please only use alphabetic characters'),
+    body('ref-bank-address-it').optional({ checkFalsy: true }).escape().isAlphanumeric().withMessage('[Bank Address] Please do not use any symbols'),
 
     //@home-transfer validation
     check('ref-acc-name-ht').optional({ checkFalsy: true }).custom((value) => {
         return value.match(/^[A-Za-z ]+$/);
     }).withMessage("Please only use alphabetic letters").escape(),
     body('ref-acc-num-ht').optional({ checkFalsy: true }).trim().escape().isLength({ min: 8, max: 8 }).withMessage('Account Number must be 8 digits long').isNumeric().withMessage('Must only use numbers'),
-    check('ref-sort-code-ht').optional({ checkFalsy: true }).escape().isAlphanumeric().withMessage('Must only contain digits'),
-    check('ref-sort-code-ht1').optional({ checkFalsy: true }).escape().isAlphanumeric().withMessage('Must only contain digits'),
-    check('ref-sort-code-ht2').optional({ checkFalsy: true }).escape().isAlphanumeric().withMessage('Must only contain digits'),
+    check('ref-sort-code-ht').optional({ checkFalsy: true }).escape().isAlphanumeric().withMessage('[Sort Code] Must only contain digits'),
+    check('ref-sort-code-ht1').optional({ checkFalsy: true }).escape().isAlphanumeric().withMessage('[Sort Code] Must only contain digits'),
+    check('ref-sort-code-ht2').optional({ checkFalsy: true }).escape().isAlphanumeric().withMessage('[Sort Code] Must only contain digits'),
 
     //@portal-extra2 validation
-    body('ref-reason').optional({ checkFalsy: true }).trim().escape().isAlphanumeric().withMessage('Text may only contain alphanumeric characters'),
+    check('ref-reason').optional({ checkFalsy: true }).custom((value) => {
+        return value.match(/^[A-Za-z ]+$/);
+    }).withMessage("Please only use alphabetic letters [Ref Reason]").escape(),
     //Custom validator for image file
     check('ref-notice-file').optional({ checkFalsy: true }).custom((value, { req }) => {
         if (req.file.mimetype === 'image/png') {
             return '.png';
-        } else if (req.file.mimetype === 'image/png') {
+        } else if (req.file.mimetype === 'image/jpg') {
             return '.jpeg';
         } else {
             return false;
         }
     }).withMessage("Please only upload png or jpeg documents"),
-    body('ref-ex-reason').optional({ checkFalsy: true }).trim().escape().isAlphanumeric().withMessage('Text may only contain alphanumeric characters'),
+    check('ref-ex-reason').optional({ checkFalsy: true }).custom((value) => {
+        return value.match(/^[A-Za-z ]+$/);
+    }).withMessage("Please only use alphabetic letters [Visa Refusal]").escape(),
     body('t/c-accepted').toBoolean(),
 
     async(req, res) => {
@@ -161,7 +165,7 @@ app.post('/application',
                 request.input('sort_code_ht', req.body['ref-sort-code-ht'] + req.body['ref-sort-code-ht1'] + req.body['ref-sort-code-ht2'])
 
                 request.input('reason', req.body['ref-reason'])
-
+                console.log(req.file['buffer'])
                 request.input('fileinput', sql.Image, req.file['buffer'])
                 request.input('ex_reasons', req.body['ref-ex-reasons'])
 
