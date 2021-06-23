@@ -45,7 +45,7 @@
             <div id="Applications" class="tab-pane fade">
                 <h3>Pending Applications</h3>
                 <p>Applications pending will go here.</p>
-                <table>
+                <table align="center">
                     <thead>
                         <th> Name </th>
                         <th> Student Number </th>
@@ -68,7 +68,7 @@
                                     <%= data.ref_reason %>
                                 </td>
                                 <td>
-                                    <!-- Image to go here  -->
+                                    <a href="/uploads/<%= data.visa_ref_file %>.png" target="_blank"><%= data.visa_ref_file %></a>
                                 </td>
                                 <form action="/intsubmission" name="int_submission" method="POST"> 
                                     <td>

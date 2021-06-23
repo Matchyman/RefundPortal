@@ -2,8 +2,17 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { body, validationResult, sanitizeBody, check, oneOf, query } = require('express-validator');
 const multer = require('multer');
-let storage = multer.memoryStorage();
-const upload = multer({ dest: '/uploads' });
+// let storage = multer.memoryStorage();
+// const upload = multer({ dest: '/uploads' });
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './uploads')
+    },
+    filename: function (req, file, cb) {
+        cb(null, `${req.body['student-number']}.png`)
+    }
+})
+var upload = multer({ storage: storage})
 const app = express()
 const port = 3000;
 
@@ -33,6 +42,7 @@ const sqlConfig = {
 
 app.engine('html', require('ejs').renderFile);
 app.use(express.static(__dirname + '/public/')); // Assets go in the public folder.
+app.use('/uploads', express.static('uploads'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -165,20 +175,19 @@ app.post('/application',
                 request.input('sort_code_ht', req.body['ref-sort-code-ht'] + req.body['ref-sort-code-ht1'] + req.body['ref-sort-code-ht2'])
 
                 request.input('reason', req.body['ref-reason'])
-                    //console.log(req.file['buffer'])
-                    //request.input('fileinput', sql.Image, req.file['buffer'])
+                request.input('fileinput', req.body['student-number'])
                 request.input('ex_reasons', req.body['ref-ex-reasons'])
 
                 request.query('INSERT INTO refunds' +
                     '(pay_type, title, first_name, last_name, student_number,' +
                     'payer_title, payer_first_name, payer_last_name, payer_address,' +
                     'acc_name_it, acc_iban_it, acc_swift_it, acc_bank_name_it, acc_bank_address_it,' +
-                    'acc_name_ht, acc_num_ht, acc_sort_code, ref_reason, ref_ex_reason) VALUES' +
+                    'acc_name_ht, acc_num_ht, acc_sort_code, ref_reason, visa_ref_file, ref_ex_reason) VALUES' +
 
                     '(@stu_pay, @title, @first_name,@last_name, @student_number,' +
                     '@payer_title, @payer_first_name, @payer_last_name,@payer_address,' +
                     '@acc_name_it, @acc_num_it, @swift_code_it, @bank_name_it, @bank_address_it,' +
-                    '@acc_name_ht, @acc_num_ht, @sort_code_ht, @reason, @ex_reasons);'
+                    '@acc_name_ht, @acc_num_ht, @sort_code_ht, @reason, @fileinput, @ex_reasons);'
                 )
 
             } catch (error) {
