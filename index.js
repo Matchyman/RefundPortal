@@ -54,37 +54,32 @@ app.get('/', (req, res) => {
 // @TODO fix sort code 
 app.post('/application',
     /*
-    What gets passed through 
-    {
-  'stu-pay': '',
-  'ref-title': '',
-  'ref-first-name': '',
-  'ref-last-name': '',
-  'student-number': '',
-  'ref-payer-title': '',
-  'ref-payer-first-name': '',
-  'ref-payer-last-name': '',
-  'ref-payer-address': '',
-  'ref-acc-name-it': '',
-  'ref-acc-num-it': '',
-  'ref-swift-code-it': '',
-  'ref-bank-name-it': '',
-  'ref-bank-address-it': '',
-  'ref-acc-name-ht': '',
-  'ref-acc-num-ht': '',
-  'ref-sort-code-ht': '',
-  'ref-reason': '',
-  'ref-ex-reasons': '',
-  't/c-accepted': true
-    }
+        What gets passed through 
+        {
+      'stu-pay': '',
+      'ref-title': '',
+      'ref-first-name': '',
+      'ref-last-name': '',
+      'student-number': '',
+      'ref-payer-title': '',
+      'ref-payer-first-name': '',
+      'ref-payer-last-name': '',
+      'ref-payer-address': '',
+      'ref-acc-name-it': '',
+      'ref-acc-num-it': '',
+      'ref-swift-code-it': '',
+      'ref-bank-name-it': '',
+      'ref-bank-address-it': '',
+      'ref-acc-name-ht': '',
+      'ref-acc-num-ht': '',
+      'ref-sort-code-ht': '',
+      'ref-reason': '',
+      'ref-ex-reasons': '',
+      't/c-accepted': true
+        }
     */
 
-    /*
-        File shit
-        Hold in memory
-    */
 
-    //Custom validator for image file
     upload.single('ref-notice-file'),
 
     //@portal-transfer validation
@@ -115,6 +110,7 @@ app.post('/application',
 
     //@portal-extra2 validation
     body('ref-reason').optional({ checkFalsy: true }).trim().escape().isAlphanumeric().withMessage('Text may only contain alphanumeric characters'),
+    //Custom validator for image file
     check('ref-notice-file').optional({ checkFalsy: true }).custom((value, { req }) => {
         if (req.file.mimetype === 'image/png') {
             return '.png';
@@ -246,6 +242,34 @@ app.post('/intsubmission', async(req, res) => {
     })
 
 })
+
+app.post('/fisubmission', async(req, res) => {
+    await sql.connect(sqlConfig)
+    const request = new sql.Request()
+    request.input('stu_num', req.body['stu_num'])
+    if (req.body['fiAccept'] === 'true') {
+        console.log('Update Database with Accept')
+        request.input('input_param', sql.Bit, req.body['fiAccept'])
+        request.query('update refunds set int_accept = @input_param where student_number = @stu_num ');
+
+        console.log('Update Database with Accept')
+        sendEmail()
+    } else {
+        console.log('Update Database with Deny')
+        request.input('input_param', sql.Bit, req.body['fiAccept'])
+        request.query('update refunds set int_accept = @input_param where student_number = @stu_num ');
+        sendEmail()
+    }
+    request.input('input_parameter', "portal")
+    request.query('select * from refunds where pay_type = @input_parameter', (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.render('management.html', { data: result })
+        }
+    })
+})
+
 
 
 app.post('/search', (req, res) => { //

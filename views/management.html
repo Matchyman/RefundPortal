@@ -56,7 +56,6 @@
                     <% data.recordset.forEach(data => { %>
                         <% if (data.int_accept === null) { %>
 
-
                             <tbody>
 
                                 <td>
@@ -88,10 +87,76 @@
             <div id="FinancePeople" class="tab-pane fade">
                 <h3>Finance People</h3>
                 <p>I dont know what this is actually for</p>
+                <table>
+                    <thead>
+                        <th> Name </th>
+                        <th> Student Number </th>
+                        <th> Refund Reason </th>
+                        <th> Bank Details</th>
+                        <th> Accept/Deny </th>
+                    </thead>
+                    <% data.recordset.forEach(data => { %>
+                        <% if (data.int_accept === !null) { %>
+
+                            <tbody>
+
+                                <td>
+                                    <%= `${data.title} ${data.first_name} ${data.last_name}` %>
+                                </td>
+                                <td>
+                                    <%= data.student_number %>
+                                </td>
+                                <td>
+                                    <%= data.int_accept %>
+                                </td>
+                                <td>
+                                    <!-- Here is where the bank details goes atm  -->
+                                </td>
+                                <form action="/fisubmission" name="int_submission" method="POST">
+                                    <td>
+                                        <button class="submissionButton" name="fiAccept" value="true">Accept</button>
+                                        <button class="submissionButton" name="fiAccept" value="false">Deny</button>
+                                    </td>
+
+                                    <input name="stu_num" value="<%= data.student_number %>" hidden>
+                                </form>
+                            </tbody>
+                            <% } %>
+                                <% }) %>
+                </table>
             </div>
             <div id="Completed" class="tab-pane fade">
                 <h3>Completed</h3>
                 <p>Completed applications are moved from Pending Applications to here.</p>
+                <table>
+                    <thead>
+                        <th> Name </th>
+                        <th> Student Number </th>
+                        <th> Refund Reason </th>
+                        <th> Completed On</th>
+
+                    </thead>
+                    <% data.recordset.forEach(data => { %>
+                        <% if (data.int_accept === !null) { %>
+
+                            <tbody>
+
+                                <td>
+                                    <%= `${data.title} ${data.first_name} ${data.last_name}` %>
+                                </td>
+                                <td>
+                                    <%= data.student_number %>
+                                </td>
+                                <td>
+                                    <%= data.int_accept %>
+                                </td>
+                                <td>
+                                    <!-- Here is where the bank details goes atm  -->
+                                </td>
+
+                                <% } %>
+                                    <% }) %>
+                </table>
             </div>
         </div>
     </div>
@@ -100,37 +165,3 @@
 </body>
 
 </html>
-<!--
-{
-      pay_type: 'portal',
-      title: 'Mr',
-      first_name: 'James',
-      last_name: 'Matcham',
-      student_number: '1702792',
-      payer_title: '',
-      payer_first_name: '',
-      payer_last_name: '',
-      payer_address: '',
-      acc_name_it: '',
-      acc_iban_it: '',
-      acc_swift_it: '',
-      acc_bank_name_it: '',
-      acc_bank_address_it: '',
-      acc_name_ht: '',
-      acc_num_ht: '        ',
-      acc_sort_code: '         ',
-      ref_reason: '',
-      visa_ref: null,
-      visa_ref_file: null,
-      ref_ex_reason: '',
-      tcs_accepted: true,
-      int_accept: null,
-      int_dec_date: null,
-      int_rej_reason: null,
-      fi_accept: null,
-      fi_dec_date: null,
-      fi_rej_reason: null
-    }
-
-     
--->
