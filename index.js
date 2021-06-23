@@ -228,16 +228,17 @@ app.post('/intsubmission', async(req, res) => {
         console.log('Update Database with Deny')
         request.input('input_param', sql.Bit, req.body['intAccept'])
         request.query('update refunds set int_accept = @input_param where student_number = @stu_num ');
+
         sendEmail()
     }
-    request.input('input_parameter', "portal")
-    request.query('select * from refunds where pay_type = @input_parameter', (err, result) => {
+    request.query('select * from refunds', (err, result) => {
         if (err) {
             console.log(err);
         } else {
             res.render('management.html', { data: result })
         }
     })
+
 
 })
 
@@ -258,8 +259,7 @@ app.post('/fisubmission', async(req, res) => {
         request.query('update refunds set fi_accept = @input_param where student_number = @stu_num ');
         sendEmail()
     }
-    request.input('input_parameter', "portal")
-    request.query('select * from refunds where pay_type = @input_parameter', (err, result) => {
+    request.query('select * from refunds', (err, result) => {
         if (err) {
             console.log(err);
         } else {

@@ -96,7 +96,7 @@
                         <th> Accept/Deny </th>
                     </thead>
                     <% data.recordset.forEach(data => { %>
-                        <% if (data.int_accept === !null) { %>
+                        <% if (data.int_accept != null && data.fi_accept === null) { %>
 
                             <tbody>
 
