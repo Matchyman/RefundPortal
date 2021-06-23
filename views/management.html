@@ -98,7 +98,7 @@
                         <th> Accept/Deny </th>
                     </thead>
                     <% data.recordset.forEach(data => { %>
-                        <% if (data.int_accept != null && data.fi_accept === null) { %>
+                        <% if (data.int_accept != null && data.fi_accept === null && data.int_accept != false) { %>
 
                             <tbody>
 
@@ -116,8 +116,9 @@
                                 </td>
                                 <form action="/fisubmission" name="int_submission" method="POST">
                                     <td>
-                                        <button class="submissionButton" name="fiAccept" value="true">Accept</button>
-                                        <button class="submissionButton" name="fiAccept" value="false" onclick = "denyReason()">Deny</button>
+                                        <button class="btn btn-success" name="fiAccept" value="true">Accept</button>
+                                        <input name = "denyReason" id= "denyReason" hidden> 
+                                        <button class="btn btn-danger" name="fiAccept" value="false" onclick = "denyReason()">Deny</button>
                                     </td>
 
                                     <input name="stu_num" value="<%= data.student_number %>" hidden>
@@ -139,7 +140,7 @@
 
                     </thead>
                     <% data.recordset.forEach(data => { %>
-                        <% if (data.int_accept === !null) { %>
+                        <% if (data.int_accept != null && data.fi_accept != null) { %>
 
                             <tbody>
 

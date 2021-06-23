@@ -228,15 +228,13 @@ app.post('/intsubmission', async(req, res) => {
     request.input('dec_date', sql.Date, getDate())
     if (req.body['intAccept'] === 'true') {
         console.log('Update Database with Accept')
-        request.input('input_param', sql.Bit, req.body['intAccept'])
-        request.query('update refunds set int_accept = @input_param, int_dec_date = @dec_date where student_number = @stu_num ');
+        request.query('update refunds set int_accept = 1, int_dec_date = @dec_date where student_number = @stu_num ');
         console.log('Update Database with Accept')
         sendEmail()
     } else {
         //@TODO Additional Deny Logic needed
         console.log('Update Database with Deny')
-        request.input('input_param', sql.Bit, req.body['intAccept'])
-        request.query('update refunds set int_accept = @input_param, int_dec_date = @dec_date where student_number = @stu_num ');
+        request.query('update refunds set int_accept = 0, fi_accept = 0, int_dec_date = @dec_date where student_number = @stu_num ');
 
         sendEmailDeny()
     }
@@ -258,15 +256,13 @@ app.post('/fisubmission', async(req, res) => {
     request.input('dec_date', sql.Date, getDate())
     if (req.body['fiAccept'] === 'true') {
         console.log('Update Database with Accept')
-        request.input('input_param', sql.Bit, req.body['fiAccept'])
-        request.query('update refunds set fi_accept = @input_param, fi_dec_date = @dec_date where student_number = @stu_num ');
+        request.query('update refunds set fi_accept = 1, fi_dec_date = @dec_date where student_number = @stu_num ');
         console.log('Update Database with Accept')
         sendEmail()
     } else {
         //@TODO Additional Deny Logic needed
         console.log('Update Database with Deny')
-        request.input('input_param', sql.Bit, req.body['fiAccept'])
-        request.query('update refunds set fi_accept = @input_param, fi_dec_date = @dec_date where student_number = @stu_num ');
+        request.query('update refunds set fi_accept = 0, fi_dec_date = @dec_date where student_number = @stu_num ');
         sendEmailDeny()
     }
     request.query('select * from refunds', (err, result) => {
