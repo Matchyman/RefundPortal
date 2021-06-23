@@ -2,7 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { body, validationResult, sanitizeBody, check, oneOf, query } = require('express-validator');
 const multer = require('multer');
-const upload = multer({ dest: 'uploads/' });
+let storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 const app = express()
 const port = 3000;
 
@@ -138,7 +139,6 @@ app.post('/application',
             request.input('student_number', req.body['student-number'])
             try {
 
-
                 request.input('stu_pay', req.body['stu-pay'])
                 request.input('title', req.body['ref-title'])
                 request.input('first_name', req.body['ref-first-name'])
@@ -161,24 +161,22 @@ app.post('/application',
                 request.input('sort_code_ht', req.body['ref-sort-code-ht'] + req.body['ref-sort-code-ht1'] + req.body['ref-sort-code-ht2'])
 
                 request.input('reason', req.body['ref-reason'])
-                console.log(req.file['filename']);
-                const fileinput = req.file['path'];
-                console.log(fileinput)
+                console.log(req.file);
+                request.input('fileinput', sql.Image, req.file['buffer'])
                 request.input('ex_reasons', req.body['ref-ex-reasons'])
 
                 request.query('INSERT INTO refunds' +
                         '(pay_type, title, first_name, last_name, student_number,' +
                         'payer_title, payer_first_name, payer_last_name, payer_address,' +
                         'acc_name_it, acc_iban_it, acc_swift_it, acc_bank_name_it, acc_bank_address_it,' +
-                        'acc_name_ht, acc_num_ht, acc_sort_code, ref_reason, ref_ex_reason) VALUES' +
+                        'acc_name_ht, acc_num_ht, acc_sort_code, ref_reason, visa_ref_file, ref_ex_reason) VALUES' +
 
                         '(@stu_pay, @title, @first_name,@last_name, @student_number,' +
                         '@payer_title, @payer_first_name, @payer_last_name,@payer_address,' +
                         '@acc_name_it, @acc_num_it, @swift_code_it, @bank_name_it, @bank_address_it,' +
-                        '@acc_name_ht, @acc_num_ht, @sort_code_ht, @reason, @ex_reasons);'
+                        '@acc_name_ht, @acc_num_ht, @sort_code_ht, @reason, @fileinput, @ex_reasons);'
                     )
                     //@TODO Need to really fix inputing files. Really struggling
-                    //request.query(`UPDATE refunds SET visa_ref_file = ${fileinput} WHERE student_number = @student_number`);
             } catch (error) {
                 console.log(error)
             }
