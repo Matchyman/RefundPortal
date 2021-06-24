@@ -4,9 +4,9 @@ Awais to actually do the login page [DESIGNS]
     - LOGIN ENCRYPTION
     - Page descriptions
 
-Tables to center (pls)
-Fix table headings and values (what shows)
-Fix completed on dates (completed section)
+Tables to center (pls) @FIXED
+Fix table headings and values (what shows) @I THINK FIXED
+Fix completed on dates (completed section) Erm need to make it so it only shows dates
 
 Implement search functionality
 

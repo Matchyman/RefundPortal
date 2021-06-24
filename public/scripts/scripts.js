@@ -58,7 +58,10 @@ function refTypeDisplay(type) {
 
             document.getElementById("ref-acc-name-ht").required = false;
             document.getElementById("ref-acc-num-ht").required = false;
-            document.getElementById("block-home-transfer").style.display = "none";
+            if (document.getElementById("block-home-transfer").style.display = "block") {
+                document.getElementById("block-home-transfer").style.display = "none";
+            }
+
 
             document.getElementById("portal-extra").style.display = "block";
             document.getElementById("portal-extra2").style.display = "block";

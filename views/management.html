@@ -51,7 +51,8 @@
                         <th> Student Number </th>
                         <th> Refund Reason </th>
                         <th> Visa Refusal Document</th>
-                        <th>  </th>
+                        <th> Any extra reasons </th>
+                        <th> Accept/Deny</th>
                     </thead>
                     <% data.recordset.forEach(data => { %>
                         <% if (data.int_accept === null) { %>
@@ -68,16 +69,21 @@
                                     <%= data.ref_reason %>
                                 </td>
                                 <td>
-                                    <a href="/uploads/<%= data.visa_ref_file %>.png" target="_blank"><%= data.visa_ref_file %></a>
+                                    <a href="/uploads/<%= data.visa_ref_file %>.png" target="_blank">
+                                        <%= data.visa_ref_file %>
+                                    </a>
                                 </td>
-                                <form action="/intsubmission" name="int_submission" method="POST"> 
+                                <td>
+                                    <%= data.ref_ex_reason %>
+                                </td>
+                                <form action="/intsubmission" name="int_submission" method="POST">
                                     <td>
                                         <div align="center">
-                                        <button class="btn btn-success" name="intAccept" value="true" >Accept</button>
-                                        <button class="btn btn-danger" name="intAccept" value="false" onclick='<%= denyReasonPrompt %>'>Deny</button>
+                                            <button class="btn btn-success" name="intAccept" value="true">Accept</button>
+                                            <button class="btn btn-danger" name="intAccept" value="false" onclick='<%= denyReasonPrompt %>'>Deny</button>
                                         </div>
                                     </td>
-                                    <input name = "denyReason" id= "denyReason" hidden> 
+                                    <input name="denyReason" id="denyReason" hidden>
                                     <input name="stu_num" value="<%= data.student_number %>" hidden>
                                 </form>
                             </tbody>
@@ -93,7 +99,7 @@
                     <thead>
                         <th> Name </th>
                         <th> Student Number </th>
-                        <th> Refund Reason </th>
+                        <th> Method of Payment</th>
                         <th> Bank Details</th>
                         <th> Accept/Deny </th>
                     </thead>
@@ -109,20 +115,35 @@
                                     <%= data.student_number %>
                                 </td>
                                 <td>
-                                    <%= data.int_accept %>
+                                    <%= data.pay_type %>
                                 </td>
-                                <td>
-                                    <!-- Here is where the bank details goes atm  -->
-                                </td>
-                                <form action="/fisubmission" name="int_submission" method="POST">
+                                <% if (data.pay_type === 'bank') { %>
                                     <td>
-                                        <button class="btn btn-success" name="fiAccept" value="true">Accept</button>
-                                        <input name = "denyReason" id= "denyReason" hidden> 
-                                        <button class="btn btn-danger" name="fiAccept" value="false" onclick='<%= denyReasonPrompt %>'>Deny</button>
+                                        <!-- Here is where the bank details goes atm  -->
+                                        <%= data.acc_name_ht %>
+                                            <%= data.acc_num_ht %>
+                                                <%= data.sort_code %>
                                     </td>
+                                    <% } %>
+                                        <% if (data.pay_type === 'international') { %>
+                                            <td>
+                                                <!-- Here is where the bank details goes atm  -->
+                                                <%= data.acc_name_it %>
+                                                    <%= data.iban_it %>
+                                                        <%= data.swift_it %>
+                                                            <%= data.bank_name_it %>
+                                                                <%= data.bank_address_it %>
+                                            </td>
+                                            <% } %>
+                                                <form action="/fisubmission" name="int_submission" method="POST">
+                                                    <td>
+                                                        <button class="btn btn-success" name="fiAccept" value="true">Accept</button>
+                                                        <input name="denyReason" id="denyReason" hidden>
+                                                        <button class="btn btn-danger" name="fiAccept" value="false" onclick='<%= denyReasonPrompt %>'>Deny</button>
+                                                    </td>
 
-                                    <input name="stu_num" value="<%= data.student_number %>" hidden>
-                                </form>
+                                                    <input name="stu_num" value="<%= data.student_number %>" hidden>
+                                                </form>
                             </tbody>
                             <% } %>
                                 <% }) %>
@@ -135,7 +156,6 @@
                     <thead>
                         <th> Name </th>
                         <th> Student Number </th>
-                        <th> Refund Reason </th>
                         <th> Completed On</th>
 
                     </thead>
@@ -151,10 +171,8 @@
                                     <%= data.student_number %>
                                 </td>
                                 <td>
-                                    <%= data.int_accept %>
-                                </td>
-                                <td>
-                                    <!-- Here is where the bank details goes atm  -->
+                                    <%= data.int_dec_date %>
+                                        <%= data.fi_dec_date %>
                                 </td>
 
                                 <% } %>
@@ -165,12 +183,10 @@
     </div>
 
     <script>
-
-    function denyReasonPrompt() {
-        var reason = prompt("Please enter deny reason", "Enter here");
-        document.getElementById("denyReason").value = reason;
-    }
-
+        function denyReasonPrompt() {
+            var reason = prompt("Please enter deny reason", "Enter here");
+            document.getElementById("denyReason").value = reason;
+        }
     </script>
 </body>
 

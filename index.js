@@ -5,14 +5,14 @@ const multer = require('multer');
 // let storage = multer.memoryStorage();
 // const upload = multer({ dest: '/uploads' });
 var storage = multer.diskStorage({
-    destination: function (req, file, cb) {
+    destination: function(req, file, cb) {
         cb(null, './uploads')
     },
-    filename: function (req, file, cb) {
+    filename: function(req, file, cb) {
         cb(null, `${req.body['student-number']}.png`)
     }
 })
-var upload = multer({ storage: storage})
+var upload = multer({ storage: storage })
 const app = express()
 const port = 3000;
 
@@ -184,7 +184,7 @@ app.post('/postLogin', async(req, res) => { // @TODO: Dependant on login/authent
             if (err) {
                 console.log(err);
             } else {
-                res.render('management.html', { data: result, denyReasonPrompt:"denyReasonPrompt();" });
+                res.render('management.html', { data: result, denyReasonPrompt: "denyReasonPrompt();" });
             }
         })
         //res.redirect('login.html');
@@ -266,7 +266,7 @@ function sendEmailDeny() {
 }
 
 function getDate() {
-    //dd/mm/yyyy format
+    //dd-mm-yyyy format
     d = new Date();
     return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
 }
