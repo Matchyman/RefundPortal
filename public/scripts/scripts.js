@@ -17,7 +17,6 @@ function refTypeDisplay(type) {
             document.getElementById("block-home-transfer").style.display = "block";
             document.getElementById("ref-acc-name-ht").required = true;
             document.getElementById("ref-acc-num-ht").required = true;
-            document.getElementById("ref-sort-code-ht").required = true;
             //Remove and make fields non-required
             document.getElementById("block-international-transfer").style.display = "none";
             document.getElementById("ref-acc-name-it").required = false;
@@ -44,7 +43,6 @@ function refTypeDisplay(type) {
             document.getElementById("block-home-transfer").style.display = "none";
             document.getElementById("ref-acc-name-ht").required = false;
             document.getElementById("ref-acc-num-ht").required = false;
-            document.getElementById("ref-sort-code-ht").required = false;
 
             document.getElementById("portal-extra").style.display = "block";
             document.getElementById("portal-extra2").style.display = "block";
@@ -60,7 +58,6 @@ function refTypeDisplay(type) {
 
             document.getElementById("ref-acc-name-ht").required = false;
             document.getElementById("ref-acc-num-ht").required = false;
-            document.getElementById("ref-sort-code-ht").required = false;
             document.getElementById("block-home-transfer").style.display = "none";
 
             document.getElementById("portal-extra").style.display = "block";

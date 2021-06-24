@@ -1,4 +1,4 @@
-Fix scripts on application page [ Changing payment types breaks things ]
+Fix scripts on application page [ Changing payment types breaks things ] @FIXED
 
 Awais to actually do the login page [DESIGNS]
     - LOGIN ENCRYPTION
