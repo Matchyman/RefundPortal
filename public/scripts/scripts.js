@@ -102,3 +102,28 @@ function denyReason() {
 
     //prompt("Please Enter Your Name", "bob");
 }
+
+function searchFunction() {
+    //Set variables, need the input and the tables themselves....
+    const input, filter, table1, table2, table3, tbody, td, i, txtValue;
+    input = document.getElementById("searchInput");
+    filter = input.value.toUpperCase();
+    table1 = document.getElementById("intTable");
+    table2 = document.getElementById("fiTable");
+    table3 = document.getElementById("compTable");
+    tbody = document.getElementsByTagName("tbody")
+
+
+    //Loop through each of the tables, i think, can we limit to only a couple of colomns
+
+
+
+
+
+
+
+
+
+
+
+}
