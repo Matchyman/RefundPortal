@@ -155,7 +155,8 @@
                     <thead>
                         <th> Name </th>
                         <th> Student Number </th>
-                        <th> Completed On</th>
+                        <th> Int Completed On</th>
+                        <th> Finance Completed On</th>
                         <th> Rejection Reason (if any)
                             <th>
 
@@ -172,23 +173,31 @@
                                     <%= data.student_number %>
                                 </td>
                                 <td>
-
                                     <%= data.int_dec_date.toDateString() %>
-                                        <% if (data._fi_dec_date != null) { %>
-                                            <%= data.fi_dec_date.toDateString() %>
-                                                <% } %>
+
+
 
                                 </td>
-                                <% if (data.int_rej_reason != null || data.fi_rej_reason != null) { %>
+                                <% if (data.fi_dec_date != null) { %>
                                     <td>
-                                        <%= data.int_rej_reason %>
-                                            <%= data.fi_rej_reason %>
+                                        <%= data.int_dec_date.toDateString() %>
                                     </td>
-                                    <% } %>
 
-
+                                    <% } else { %>
+                                        <td>
+                                        </td>
                                         <% } %>
-                                            <% }) %>
+
+                                            <% if (data.int_rej_reason != null || data.fi_rej_reason != null) { %>
+                                                <td>
+                                                    <%= data.int_rej_reason %>
+                                                        <%= data.fi_rej_reason %>
+                                                </td>
+                                                <% } %>
+
+
+                                                    <% } %>
+                                                        <% }) %>
                 </table>
             </div>
         </div>

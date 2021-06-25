@@ -185,7 +185,9 @@ app.post('/postLogin', async(req, res) => { // @TODO: Dependant on login/authent
             if (err) {
                 console.log(err);
             } else {
+                console.log(result);
                 res.render('management.html', { data: result });
+
             }
         })
         //res.redirect('login.html');
