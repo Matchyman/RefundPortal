@@ -1,9 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const { body, validationResult, sanitizeBody, check, oneOf, query } = require('express-validator');
+const nodemailer = require('nodemailer');
 const multer = require('multer');
-// let storage = multer.memoryStorage();
-// const upload = multer({ dest: '/uploads' });
 var storage = multer.diskStorage({
     destination: function(req, file, cb) {
         cb(null, './uploads')
@@ -15,7 +14,6 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage })
 const app = express()
 const port = 3000;
-
 
 // =========== MSSQL INFORMATION ===========
 const sql = require('mssql');
@@ -39,6 +37,23 @@ const sqlConfig = {
 
 // ==========================================
 
+// =========== NODEMAILER INFORMATION ===========
+
+let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'projectdigitiserefundportal@gmail.com',
+        pass: 'projectdigitise'
+    }
+});
+
+let mailOptions = {
+    from: 'projectdigitiserefundportal@gmail.com',
+    to: 'jmatcham31@googlemail.com',
+    subject: 'Test',
+    text: " Just Checking to see if this works!"
+};
+// ==========================================
 
 app.engine('html', require('ejs').renderFile);
 app.use(express.static(__dirname + '/public/')); // Assets go in the public folder.
@@ -185,7 +200,7 @@ app.post('/postLogin', async(req, res) => { // @TODO: Dependant on login/authent
             if (err) {
                 console.log(err);
             } else {
-                console.log(result);
+                //console.log(result);
                 res.render('management.html', { data: result });
 
             }
@@ -261,7 +276,13 @@ app.listen(port, () => {
 })
 
 function sendEmail() {
-
+    transporter.sendMail(mailOptions, function(error, info) {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Email sent' + info.response);
+        }
+    });
 }
 
 function sendEmailDeny() {

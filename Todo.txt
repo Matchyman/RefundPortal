@@ -4,12 +4,20 @@ Awais to actually do the login page [DESIGNS]
     - LOGIN ENCRYPTION
     - Page descriptions
 
-Tables to center (pls) @FIXED
+Tables to center (pls) @FIXED also text is centered as well
 Fix table headings and values (what shows) @I THINK FIXED
-Fix completed on dates (completed section) Erm need to make it so it only shows dates
+Fix completed on dates (completed section) @DONE .toDateString() is really handy
 
-Implement search functionality
+Implement search functionality@DONE
 
-Get email credentials.
-    - Get it implemented.
+Get email credentials. 
+    - Get it implemented. 
+    - Get templates sorted out for the x kinds of emails we need to make
+    - Email sent on application success (need some kind of authentication)
+    - Email sent on international success
+    - Email sent on finance success
+    - Email sent to X Person on either deny scenarios
+    - Email sent when refunds to process (sent per day/per week)
+    - Email sent when finance to do refunds? (sent per day/per week)
+
 
