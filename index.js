@@ -3,6 +3,8 @@ const bodyParser = require('body-parser');
 const { body, validationResult, sanitizeBody, check, oneOf, query } = require('express-validator');
 const nodemailer = require('nodemailer');
 const multer = require('multer');
+
+
 var storage = multer.diskStorage({
     destination: function(req, file, cb) {
         cb(null, './uploads')
@@ -18,6 +20,7 @@ const port = 3000;
 // =========== MSSQL INFORMATION ===========
 const sql = require('mssql');
 const { request, application } = require('express');
+const { from } = require('form-data');
 
 const sqlConfig = {
     user: 'RefundAuth',
@@ -52,6 +55,34 @@ let mailOptions = {
     to: 'jmatcham31@googlemail.com',
     subject: 'Test',
     text: " Just Checking to see if this works!"
+};
+
+let appAccepted = {
+    from: 'projectdigitiserefundportal@gmail.com',
+    to: 'jmatcham31@googlemail.com',
+    subject: 'Test',
+    text: "Your application has been accepted"
+};
+
+let intAccepted = {
+    from: 'projectdigitiserefundportal@gmail.com',
+    to: 'jmatcham31@googlemail.com',
+    subject: 'Test',
+    text: "Application has been accepted by the international team"
+};
+
+let fiAccepted = {
+    from: 'projectdigitiserefundportal@gmail.com',
+    to: 'jmatcham31@googlemail.com',
+    subject: 'Test',
+    text: "Application has been accepted by the finance team"
+};
+
+let denied = {
+    from: 'projectdigitiserefundportal@gmail.com',
+    to: 'jmatcham31@googlemail.com',
+    subject: 'Test',
+    text: "Application has been accepted by the finance team"
 };
 // ==========================================
 
@@ -182,7 +213,7 @@ app.post('/application',
             }
 
             console.log("Application Recieved Send email");
-            sendEmail();
+            sendEmail("app");
             res.redirect('application');
         }
 
@@ -220,13 +251,13 @@ app.post('/intsubmission', async(req, res) => {
         // console.log('Update Database with Accept')
         request.query('update refunds set int_accept = 1, int_dec_date = @dec_date where student_number = @stu_num ');
         console.log('Update Database with Accept')
-        sendEmail()
+        sendEmail("int")
     } else {
         console.log('Update Database with Deny')
         request.input('denyReason', req.body['denyReason'])
         request.query('update refunds set int_accept = 0, int_rej_reason = @denyReason, fi_accept = 0, int_dec_date = @dec_date where student_number = @stu_num ');
 
-        sendEmailDeny()
+        sendEmailDeny("deny")
     }
     request.query('select * from refunds', (err, result) => {
         if (err) {
@@ -249,12 +280,12 @@ app.post('/fisubmission', async(req, res) => {
         console.log('Update Database with Accept')
         request.query('update refunds set fi_accept = 1, fi_dec_date = @dec_date where student_number = @stu_num ');
         console.log('Update Database with Accept')
-        sendEmail()
+        sendEmail("fi")
     } else {
         console.log('Update Database with Deny')
         request.input('denyReason', req.body['denyReason'])
         request.query('update refunds set fi_accept = 0, fi_rej_reason = @denyReason, fi_dec_date = @dec_date where student_number = @stu_num ');
-        sendEmailDeny()
+        sendEmailDeny("deny")
     }
     request.query('select * from refunds', (err, result) => {
         if (err) {
@@ -275,7 +306,51 @@ app.listen(port, () => {
     console.log(`Application started @ http://localhost:${port}`)
 })
 
-function sendEmail() {
+function sendEmail(stage) {
+
+    switch (stage) {
+        case "app":
+            transporter.sendMail(appAccepted, function(error, info) {
+                if (error) {
+                    console.log(error);
+                } else {
+                    console.log('Email sent' + info.response);
+                }
+            });
+            break;
+        case "int":
+            transporter.sendMail(intAccepted, function(error, info) {
+                if (error) {
+                    console.log(error);
+                } else {
+                    console.log('Email sent' + info.response);
+                }
+            });
+            break;
+        case "fi":
+            transporter.sendMail(fiAccepted, function(error, info) {
+                if (error) {
+                    console.log(error);
+                } else {
+                    console.log('Email sent' + info.response);
+                }
+            });
+            break;
+        case "deny":
+            transporter.sendMail(denied, function(error, info) {
+                if (error) {
+                    console.log(error);
+                } else {
+                    console.log('Email sent' + info.response);
+                }
+            });
+            break;
+
+        default:
+            break;
+    }
+
+
     transporter.sendMail(mailOptions, function(error, info) {
         if (error) {
             console.log(error);

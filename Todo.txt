@@ -10,6 +10,9 @@ Fix completed on dates (completed section) @DONE .toDateString() is really handy
 
 Implement search functionality@DONE
 
+
+Can we send all the emails from another script file? And use export func to index.js?
+
 Get email credentials. 
     - Get it implemented. 
     - Get templates sorted out for the x kinds of emails we need to make
@@ -19,5 +22,6 @@ Get email credentials.
     - Email sent to X Person on either deny scenarios
     - Email sent when refunds to process (sent per day/per week)
     - Email sent when finance to do refunds? (sent per day/per week)
+    - 
 
 
