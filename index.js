@@ -149,6 +149,7 @@ app.post('/application',
                 request.input('fileinput', req.body['student-number'])
                 request.input('ex_reasons', req.body['ref-ex-reasons'])
 
+
                 request.query('INSERT INTO refunds' +
                     '(pay_type, title, first_name, last_name, student_number,' +
                     'payer_title, payer_first_name, payer_last_name, payer_address,' +

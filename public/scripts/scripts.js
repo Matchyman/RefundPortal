@@ -129,3 +129,7 @@ function denyReasonPrompt() {
     var reason = prompt("Please enter deny reason", "Enter here");
     document.getElementById("denyReason").value = reason;
 }
+
+function test(date) {
+    return date.toUTCString();
+}
