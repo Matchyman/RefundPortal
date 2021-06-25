@@ -96,34 +96,36 @@ function refPayerDisplay(type) {
     }
 }
 
-function denyReason() {
-    prompt("Please enter deny reason", "Enter here");
-    document.getElementById("denyReason").innerHTML = reason;
 
-    //prompt("Please Enter Your Name", "bob");
-}
 
 function searchFunction() {
-    //Set variables, need the input and the tables themselves....
-    const input, filter, table1, table2, table3, tbody, td, i, txtValue;
-    input = document.getElementById("searchInput");
-    filter = input.value.toUpperCase();
-    table1 = document.getElementById("intTable");
-    table2 = document.getElementById("fiTable");
-    table3 = document.getElementById("compTable");
-    tbody = document.getElementsByTagName("tbody")
+    //Set variables, need the input and whats holding them. This took far to fucking long
+    const input = document.getElementById("searchInput");
+    const filter = input.value.toUpperCase();
+    const tbody = document.getElementsByTagName("tbody")
 
 
-    //Loop through each of the tables, i think, can we limit to only a couple of colomns
+    //Loop through each of the tables, i think, can we limit to only a couple of colomns.
+    //EDIT: I am an idiot and we loop through tbodys not through the tables themselves we display TBODY'S YOU FUCKING RETARDED MONKEY!
+    console.log("KeyPress");
+    //console.log(tbody);
+    for (let i = 0; i < tbody.length; i++) {
+        const td = tbody[i].getElementsByTagName("td")[0];
+        //console.log(td);
+        if (td) {
+            const textValue = td.textContent || td.innerText;
+            if (textValue.toUpperCase().indexOf(filter) > -1) {
+                tbody[i].style.display = "";
+            } else {
+                tbody[i].style.display = "none";
+            }
+        }
+    }
+
+}
 
 
-
-
-
-
-
-
-
-
-
+function denyReasonPrompt() {
+    var reason = prompt("Please enter deny reason", "Enter here");
+    document.getElementById("denyReason").value = reason;
 }

@@ -9,8 +9,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="/css/style.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
 </head>
 
 <body>
@@ -19,11 +21,9 @@
         <h2 align="center">Refund Application Portal</h2>
 
         <!-- The search button exists but until we have the data it doesn't actually do anything  -->
+        <input id="searchInput" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" onkeyup="searchFunction()">
+        <!--<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
 
-        <form class="form-inline my-2 my-lg-0" align="center">
-            <input id="searchInput" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" onkeyup="searchFunction()">
-            <!--<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
-        </form>
 
         <!-- This is just the navigation bar for each tab don't need to mess with these (please)  -->
 
@@ -79,7 +79,7 @@
                                     <td>
                                         <div align="center">
                                             <button class="btn btn-success" name="intAccept" value="true">Accept</button>
-                                            <button class="btn btn-danger" name="intAccept" value="false" onclick='<%= denyReasonPrompt %>'>Deny</button>
+                                            <button class="btn btn-danger" name="intAccept" value="false" onclick='denyReasonPrompt()'>Deny</button>
                                         </div>
                                     </td>
                                     <input name="denyReason" id="denyReason" hidden>
@@ -138,7 +138,7 @@
                                                     <td>
                                                         <button class="btn btn-success" name="fiAccept" value="true">Accept</button>
                                                         <input name="denyReason" id="denyReason" hidden>
-                                                        <button class="btn btn-danger" name="fiAccept" value="false" onclick='<%= denyReasonPrompt %>'>Deny</button>
+                                                        <button class="btn btn-danger" name="fiAccept" value="false" onclick='denyReasonPrompt()'>Deny</button>
                                                     </td>
 
                                                     <input name="stu_num" value="<%= data.student_number %>" hidden>
@@ -181,12 +181,8 @@
         </div>
     </div>
 
-    <script>
-        function denyReasonPrompt() {
-            var reason = prompt("Please enter deny reason", "Enter here");
-            document.getElementById("denyReason").value = reason;
-        }
-    </script>
+    <script src="scripts/scripts.js" async defer></script>
+
 </body>
 
 </html>
