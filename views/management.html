@@ -9,8 +9,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="/css/style.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
 </head>
 
 <body>
@@ -19,11 +21,9 @@
         <h2 align="center">Refund Application Portal</h2>
 
         <!-- The search button exists but until we have the data it doesn't actually do anything  -->
+        <input id="searchInput" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" onkeyup="searchFunction()">
+        <!--<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
 
-        <form class="form-inline my-2 my-lg-0" align="center">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
 
         <!-- This is just the navigation bar for each tab don't need to mess with these (please)  -->
 
@@ -45,7 +45,7 @@
             <div id="Applications" class="tab-pane fade">
                 <h3>Pending Applications</h3>
                 <p>Applications pending will go here.</p>
-                <table align="center">
+                <table id="intTable">
                     <thead>
                         <th> Name </th>
                         <th> Student Number </th>
@@ -56,7 +56,6 @@
                     </thead>
                     <% data.recordset.forEach(data => { %>
                         <% if (data.int_accept === null) { %>
-
                             <tbody>
 
                                 <td>
@@ -80,7 +79,7 @@
                                     <td>
                                         <div align="center">
                                             <button class="btn btn-success" name="intAccept" value="true">Accept</button>
-                                            <button class="btn btn-danger" name="intAccept" value="false" onclick='<%= denyReasonPrompt %>'>Deny</button>
+                                            <button class="btn btn-danger" name="intAccept" value="false" onclick='denyReasonPrompt()'>Deny</button>
                                         </div>
                                     </td>
                                     <input name="denyReason" id="denyReason" hidden>
@@ -95,7 +94,7 @@
             <div id="FinancePeople" class="tab-pane fade">
                 <h3>Finance People</h3>
                 <p>I dont know what this is actually for</p>
-                <table>
+                <table id="fiTable">
                     <thead>
                         <th> Name </th>
                         <th> Student Number </th>
@@ -139,7 +138,7 @@
                                                     <td>
                                                         <button class="btn btn-success" name="fiAccept" value="true">Accept</button>
                                                         <input name="denyReason" id="denyReason" hidden>
-                                                        <button class="btn btn-danger" name="fiAccept" value="false" onclick='<%= denyReasonPrompt %>'>Deny</button>
+                                                        <button class="btn btn-danger" name="fiAccept" value="false" onclick='denyReasonPrompt()'>Deny</button>
                                                     </td>
 
                                                     <input name="stu_num" value="<%= data.student_number %>" hidden>
@@ -152,7 +151,7 @@
             <div id="Completed" class="tab-pane fade">
                 <h3>Completed</h3>
                 <p>Completed applications are moved from Pending Applications to here.</p>
-                <table>
+                <table id="compTable">
                     <thead>
                         <th> Name </th>
                         <th> Student Number </th>
@@ -182,12 +181,8 @@
         </div>
     </div>
 
-    <script>
-        function denyReasonPrompt() {
-            var reason = prompt("Please enter deny reason", "Enter here");
-            document.getElementById("denyReason").value = reason;
-        }
-    </script>
+    <script src="scripts/scripts.js" async defer></script>
+
 </body>
 
 </html>
