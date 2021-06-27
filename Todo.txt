@@ -1,14 +1,16 @@
-Fix scripts on application page [ Changing payment types breaks things ] @FIXED
+@FIXED - Fix scripts on application page [ Changing payment types breaks things ]
 
-Awais to actually do the login page [DESIGNS]
-    - LOGIN ENCRYPTION
-    - Page descriptions
+@FIXED - Awais to actually do the login page [DESIGNS] 
 
-Tables to center (pls) @FIXED also text is centered as well
-Fix table headings and values (what shows) @I THINK FIXED
-Fix completed on dates (completed section) @DONE .toDateString() is really handy
+@FIXED -  Page descriptions @FIXED as appropriate. Will develop more as required.
 
-Implement search functionality@DONE
+@FIXED - Tables to center (pls) also text is centered as well
+@FIXED - Fix table headings and values (what shows) @I THINK FIXED
+@FIXED - Fix completed on dates (completed section) @DONE .toDateString() is really handy
+
+@FIXED - Implement search functionality @DONE
+
+@TODO  - Login Encryptions
 
 
 Can we send all the emails from another script file? And use export func to index.js?
