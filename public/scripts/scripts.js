@@ -111,10 +111,15 @@ function searchFunction() {
     //console.log(tbody);
     for (let i = 0; i < tbody.length; i++) {
         const td = tbody[i].getElementsByTagName("td")[0];
+        const td_num = tbody[i].getElementsByTagName("td")[1]
+
         //console.log(td);
         if (td) {
             const textValue = td.textContent || td.innerText;
-            if (textValue.toUpperCase().indexOf(filter) > -1) {
+            const numValue = td_num.textContent || td.innerText;
+            //console.log(numValue);
+            //console.log(textValue);
+            if (textValue.toUpperCase().indexOf(filter) > -1 || numValue.indexOf(filter) > -1) {
                 tbody[i].style.display = "";
             } else {
                 tbody[i].style.display = "none";
