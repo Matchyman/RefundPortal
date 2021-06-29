@@ -21,6 +21,7 @@ const port = 3000;
 const sql = require('mssql');
 const { request, application } = require('express');
 const { from } = require('form-data');
+const { testEmail } = require('./refundModules/emailLogic');
 
 const sqlConfig = {
     user: 'RefundAuth',
@@ -213,7 +214,8 @@ app.post('/application',
             }
 
             console.log("Application Recieved Send email");
-            sendEmail("app");
+            testEmail("app");
+            //sendEmail("app");
             res.redirect('application');
         }
 
