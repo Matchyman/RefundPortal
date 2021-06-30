@@ -10,7 +10,7 @@
 
 @FIXED - Implement search functionality @DONE
 
-@TODO  - Login Encryptions
+@FIXED  - Login Encryptions
 
 
 Can we send all the emails from another script file? And use export func to index.js?
