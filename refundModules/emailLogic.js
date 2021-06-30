@@ -1,17 +1,21 @@
 const nodemailer = require('nodemailer');
+const Email = require('email-templates');
 
 //Look into email-templates npm module
 module.exports = {
     sendEmail,
 }
 
-let transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: 'projectdigitiserefundportal@gmail.com',
-        pass: 'projectdigitise'
+const email = new Email({
+    message: {
+        from: 'projectdigitiserefundportal@gmail.com'
+    },
+    transport: {
+        jsonTransport: true
     }
+
 });
+
 
 let mailOptions = {
     from: '',
@@ -53,6 +57,16 @@ function sendEmail(stage) {
 
     switch (stage) {
         case "app":
+            email.send({
+                    template: 'appSuccess',
+                    message: {
+                        to: 'jmatcham31@googlemail.com'
+                    },
+                })
+                .then(console.log)
+                .catch(console.error);
+
+            /*
             transporter.sendMail(appAccepted, function(error, info) {
                 if (error) {
                     console.log(error);
@@ -60,6 +74,7 @@ function sendEmail(stage) {
                     console.log('Email sent' + info.response);
                 }
             });
+            */
             break;
         case "int":
             transporter.sendMail(intAccepted, function(error, info) {
