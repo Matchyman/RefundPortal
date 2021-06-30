@@ -1,5 +1,6 @@
 const nodemailer = require('nodemailer');
 
+//Look into email-templates npm module
 module.exports = {
     sendEmail,
 }
@@ -13,36 +14,36 @@ let transporter = nodemailer.createTransport({
 });
 
 let mailOptions = {
-    from: 'projectdigitiserefundportal@gmail.com',
-    to: 'jmatcham31@googlemail.com',
+    from: '',
+    to: '',
     subject: 'Test',
     text: " Just Checking to see if this works!"
 };
 
 let appAccepted = {
-    from: 'projectdigitiserefundportal@gmail.com',
-    to: 'jmatcham31@googlemail.com',
+    from: '',
+    to: '',
     subject: 'Test',
     text: "Your application has been accepted"
 };
 
 let intAccepted = {
-    from: 'projectdigitiserefundportal@gmail.com',
-    to: 'jmatcham31@googlemail.com',
+    from: '',
+    to: '',
     subject: 'Test',
     text: "Application has been accepted by the international team"
 };
 
 let fiAccepted = {
-    from: 'projectdigitiserefundportal@gmail.com',
-    to: 'jmatcham31@googlemail.com',
+    from: '',
+    to: '',
     subject: 'Test',
     text: "Application has been accepted by the finance team"
 };
 
 let denied = {
-    from: 'projectdigitiserefundportal@gmail.com',
-    to: 'jmatcham31@googlemail.com',
+    from: '',
+    to: '',
     subject: 'Test',
     text: "Application has been accepted by the finance team"
 };

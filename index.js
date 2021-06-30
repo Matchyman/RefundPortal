@@ -41,10 +41,7 @@ const sqlConfig = {
 
 // ==========================================
 
-// =========== NODEMAILER INFORMATION ===========
 
-
-// ==========================================
 
 app.engine('html', require('ejs').renderFile);
 app.use(express.static(__dirname + '/public/')); // Assets go in the public folder.
@@ -172,7 +169,7 @@ app.post('/application',
                 console.log(error)
             }
 
-            console.log("Application Recieved Send email");
+            console.log("Application Recieved Send email [application]");
 
             sendEmail("app");
             res.redirect('application');
@@ -211,22 +208,16 @@ app.post('/intsubmission', async(req, res) => {
     if (req.body['intAccept'] === 'true') {
         // console.log('Update Database with Accept')
         request.query('update refunds set int_accept = 1, int_dec_date = @dec_date where student_number = @stu_num ');
-        console.log('Update Database with Accept')
-        sendEmail("int")
+        console.log('Update Database with Accept [international]');
+        sendEmail("int");
     } else {
-        console.log('Update Database with Deny')
+        console.log('Update Database with Deny [international]');
         request.input('denyReason', req.body['denyReason'])
         request.query('update refunds set int_accept = 0, int_rej_reason = @denyReason, fi_accept = 0, int_dec_date = @dec_date where student_number = @stu_num ');
-
         sendEmailDeny("deny")
     }
-    request.query('select * from refunds', (err, result) => {
-        if (err) {
-            console.log(err);
-        } else {
-            res.redirect(307, '/postLogin');
-        }
-    })
+
+    res.redirect(307, '/postLogin');
 
 
 })
@@ -238,23 +229,18 @@ app.post('/fisubmission', async(req, res) => {
     request.input('stu_num', req.body['stu_num'])
     request.input('dec_date', sql.Date, getDate())
     if (req.body['fiAccept'] === 'true') {
-        console.log('Update Database with Accept')
+        console.log('Update Database with Accept [finance]')
         request.query('update refunds set fi_accept = 1, fi_dec_date = @dec_date where student_number = @stu_num ');
         console.log('Update Database with Accept')
         sendEmail("fi")
     } else {
-        console.log('Update Database with Deny')
+        console.log('Update Database with Deny [finance]')
         request.input('denyReason', req.body['denyReason'])
         request.query('update refunds set fi_accept = 0, fi_rej_reason = @denyReason, fi_dec_date = @dec_date where student_number = @stu_num ');
         sendEmailDeny("deny")
     }
-    request.query('select * from refunds', (err, result) => {
-        if (err) {
-            console.log(err);
-        } else {
-            res.redirect(307, '/postLogin');
-        }
-    })
+
+    res.redirect(307, '/postLogin');
 })
 
 
@@ -266,8 +252,6 @@ app.post('/search', (req, res) => { //
 app.listen(port, () => {
     console.log(`Application started @ http://localhost:${port}`)
 })
-
-
 
 function getDate() {
     //dd-mm-yyyy format
