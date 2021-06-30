@@ -1,5 +1,5 @@
 CREATE TABLE refunds(
-    -- @TODO finish creating schema
+    
     pay_type varChar(15) NOT NULL,
     title varChar(10) NOT NULL,
     first_name varChar(50) NOT NULL,
