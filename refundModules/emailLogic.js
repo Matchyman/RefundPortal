@@ -1,7 +1,9 @@
 const nodemailer = require('nodemailer');
 const Email = require('email-templates');
 
-//Look into email-templates npm module
+//https://email-templates.js.org/#/
+//All email templates are in emails folder
+
 module.exports = {
     sendEmail,
 }
@@ -10,47 +12,20 @@ const email = new Email({
     message: {
         from: 'projectdigitiserefundportal@gmail.com'
     },
-    transport: {
-        jsonTransport: true
-    }
+    //Uncomment below to actually send emails
+    //send: true,
+    transport: nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'projectdigitiserefundportal@gmail.com',
+            pass: 'projectdigitise'
+        }
+    })
 
 });
 
 
-let mailOptions = {
-    from: '',
-    to: '',
-    subject: 'Test',
-    text: " Just Checking to see if this works!"
-};
 
-let appAccepted = {
-    from: '',
-    to: '',
-    subject: 'Test',
-    text: "Your application has been accepted"
-};
-
-let intAccepted = {
-    from: '',
-    to: '',
-    subject: 'Test',
-    text: "Application has been accepted by the international team"
-};
-
-let fiAccepted = {
-    from: '',
-    to: '',
-    subject: 'Test',
-    text: "Application has been accepted by the finance team"
-};
-
-let denied = {
-    from: '',
-    to: '',
-    subject: 'Test',
-    text: "Application has been accepted by the finance team"
-};
 
 
 function sendEmail(stage) {
@@ -60,7 +35,7 @@ function sendEmail(stage) {
             email.send({
                     template: 'appSuccess',
                     message: {
-                        to: 'jmatcham31@googlemail.com'
+                        to: ''
                     },
                 })
                 .then(console.log)
@@ -77,24 +52,51 @@ function sendEmail(stage) {
             */
             break;
         case "int":
-            transporter.sendMail(intAccepted, function(error, info) {
+            email.send({
+                    template: 'intSuccess',
+                    message: {
+                        to: ''
+                    },
+                })
+                .then(console.log)
+                .catch(console.error);
+            /*transporter.sendMail(intAccepted, function(error, info) {
                 if (error) {
                     console.log(error);
                 } else {
                     console.log('Email sent' + info.response);
                 }
             });
+            */
             break;
         case "fi":
+            email.send({
+                    template: 'fiSuccess',
+                    message: {
+                        to: ''
+                    },
+                })
+                .then(console.log)
+                .catch(console.error);
+            /*
             transporter.sendMail(fiAccepted, function(error, info) {
                 if (error) {
                     console.log(error);
                 } else {
                     console.log('Email sent' + info.response);
                 }
-            });
+            });*/
             break;
         case "deny":
+            email.send({
+                    template: 'denyApp',
+                    message: {
+                        to: ''
+                    },
+                })
+                .then(console.log)
+                .catch(console.error);
+            /*
             transporter.sendMail(denied, function(error, info) {
                 if (error) {
                     console.log(error);
@@ -102,6 +104,7 @@ function sendEmail(stage) {
                     console.log('Email sent' + info.response);
                 }
             });
+            */
             break;
 
         default:
@@ -109,11 +112,4 @@ function sendEmail(stage) {
     }
 
 
-    transporter.sendMail(mailOptions, function(error, info) {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log('Email sent' + info.response);
-        }
-    });
 }
