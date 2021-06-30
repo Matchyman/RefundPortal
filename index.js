@@ -27,10 +27,10 @@ const saltRounds = 10;
 // =========== MSSQL INFORMATION ===========
 const sql = require('mssql');
 const sqlConfig = {
-    user: 'RefundAuth',
-    password: 'notgonnausethis',
-    database: 'ProjectDigitise',
-    server: 'notcreative.co.uk',
+    user: '',
+    password: '',
+    database: '',
+    server: '',
     pool: {
         max: 10,
         min: 0,
