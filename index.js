@@ -17,12 +17,15 @@ var upload = multer({ storage: storage })
 const app = express()
 const port = 3000;
 
-// =========== MSSQL INFORMATION ===========
-const sql = require('mssql');
 const { request, application } = require('express');
 const { from } = require('form-data');
 const { sendEmail } = require('./refundModules/emailLogic');
 
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+
+// =========== MSSQL INFORMATION ===========
+const sql = require('mssql');
 const sqlConfig = {
     user: 'RefundAuth',
     password: 'notgonnausethis',
@@ -177,24 +180,50 @@ app.post('/application',
 
     })
 
-app.get('/login', (req, res) => { // @TODO: Dependant on login/authentication requirements.
+app.get('/login', (req, res) => { 
     res.render('login.html');
 })
 
-app.post('/postLogin', async(req, res) => { // @TODO: Dependant on login/authentication requirements.
-    console.log("Now Viewing Management Page");
-    await sql.connect(sqlConfig)
-    const request = new sql.Request()
-    request.query('select * from refunds', (err, result) => {
-            if (err) {
-                console.log(err);
+var Authcheck = false;
+async function getAuth(username, password) {
+    await sql.connect(sqlConfig);
+    const request = new sql.Request();
+    request.input('username', username);
+    request.query('SELECT password FROM authentication WHERE username = @username', (err, result) => {
+        if (typeof result.recordset[0] !== 'undefined') {
+            hash = `${result.recordset[0].password}`;
+            Authcheck = bcrypt.compareSync(`${password}`, hash);
+            if (Authcheck = true) {
+                Authcheck = true;
             } else {
-                //console.log(result);
-                res.render('management.html', { data: result });
-
+                Authcheck = false;
             }
-        })
-        //res.redirect('login.html');
+        } else {
+            Authcheck = false;
+        }
+    });
+}
+
+app.post('/postLogin', async(req, res) => { 
+    getAuth(req.body.username, req.body.password);
+    console.log(Authcheck)
+    if (!Authcheck) {
+        console.log(`User Authenticated -> Proceed to login`)
+        console.log("Now Viewing Management Page");
+        await sql.connect(sqlConfig)
+        const request = new sql.Request()
+        request.query('select * from refunds', (err, result) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    //console.log(result);
+                    res.render('management.html', { data: result });
+                }})
+    } else {
+        console.log(`User NOT Authenticated -> Redirect`)
+        res.redirect('/login');
+    }
+    
 })
 
 app.post('/intsubmission', async(req, res) => {
